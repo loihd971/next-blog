@@ -32,6 +32,6 @@
     "i18n.config.js",
     "public/locale/vi.js",
     "public/locale/en.js"
-, "pages/hooks/useTranslate.js"  ],
+, "utils/useTranslate.js"  ],
   "exclude": ["node_modules"]
 }

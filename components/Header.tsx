@@ -1,6 +1,6 @@
 import React from "react";
 
-import useTrans from "../pages/hooks/useTranslate.js";
+import useTrans from "@/utils/useTranslate.js";
 
 type Props = {};
 
