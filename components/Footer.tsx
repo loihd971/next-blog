@@ -1,11 +1,11 @@
-import React from 'react'
+import React from "react";
+import styles from "@/styles/Footer.module.scss";
+import { Container } from "@nextui-org/react";
 
-type Props = {}
+type Props = {};
 
 function Footer({}: Props) {
-  return (
-    <div>Footer</div>
-  )
+  return <div className={styles.footer}>Footer</div>;
 }
 
-export default Footer
+export default Footer;

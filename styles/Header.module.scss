@@ -1,0 +1,24 @@
+@import "./_mixin.scss";
+
+.content_container {
+  @include d-flex(space-between, flex-start);
+  width: 100vw;
+  height: 100%;
+  min-height: calc(100vh - 176px);
+  &__left {
+    padding: 24px;
+    width: 70%;
+    height: 100%;
+    min-height: calc(100vh - 176px);
+  }
+  &__right {
+    padding: 36px 24px 24px;
+    width: 30%;
+    height: 100%;
+    min-height: calc(100vh - 176px);
+  }
+}
+
+.wrapper_lang__item {
+  @include d-flex(space-between, center);
+}
