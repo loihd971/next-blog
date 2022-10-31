@@ -24,6 +24,11 @@ const UserSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    role: {
+      // role 1: basic and 2: admin
+      type: Number,
+      default: 1,
+    },
     fromGoogle: {
       type: Boolean,
       required: false,

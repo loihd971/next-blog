@@ -2,6 +2,6 @@
 @import "./_variables.scss";
 
 .footer {
-  height: 100px;
-  background-color: $colorBlack;
+  min-height: 100px;
+  // background-color: $colorBlack;
 }

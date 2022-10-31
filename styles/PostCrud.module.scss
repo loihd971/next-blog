@@ -1,0 +1,29 @@
+@import "./_mixin.scss";
+
+.container {
+  min-height: calc(100vh - 176px);
+  overflow-y: auto;
+  padding: 24px;
+}
+
+.wrapper__table__container {
+}
+
+.wrapper__table__filter {
+  height: 100%;
+  width: 98%;
+  border-radius: 12px;
+  background-color: silver;
+  transition: all 0.5s ease;
+  margin: 0 auto;
+  display: flex;
+}
+
+.pagesize__select {
+  float: right;
+  cursor: pointer;
+  width: 70px;
+  height: 35px;
+  border-radius: 10px;
+  border: unset;
+}

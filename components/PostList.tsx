@@ -12,10 +12,11 @@ import {
 } from "@nextui-org/react";
 import styles from "@/styles/Header.module.scss";
 import { PostCard } from "@/components/PostCard";
+import Slider from "react-slick";
 
 function PostList({ postList }: { postList: PostType[] }) {
   const CustomGridTrending = styled(Grid, {
-    width: "300px",
+    width: "400px",
     paddingTop: "10px",
     height: "300px",
     backgroundColor: "pink",
@@ -44,7 +45,7 @@ function PostList({ postList }: { postList: PostType[] }) {
         </Grid.Container>
       </div>
       <div className={styles.content_container__right}>
-        <Grid.Container direction="column" justify="center">
+        <Grid.Container direction="column">
           <p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat,
             recusandae eveniet aspernatur, quam a dignissimos saepe sunt quis

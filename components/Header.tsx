@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import {
   Navbar as Nav,
@@ -27,13 +27,8 @@ function Header({}: Props) {
   const router = useRouter();
   const { setTheme } = useNextTheme();
   const { isDark, type } = useTheme();
-  const [currentLang, setCurrentLang] = useState<Language | Selection | any>(
-    Language.en
-  );
-
+  const [isNavbarActive, setIsNavbarActive] = useState("home");
   const handleChangeLanguage = (lang: string) => {
-    console.log(lang);
-
     router.push("/", "/", { locale: lang });
   };
 
@@ -51,28 +46,22 @@ function Header({}: Props) {
     "Log Out",
   ];
   const { data: session }: any = useSession();
+  console.log(session);
 
   const WraperLangItem = styled("div", {
     display: "flex",
     alignItems: "center",
   });
 
-  // fix for popover not keep position with parent container
-  const globalStyles = globalCss({
-    ".nextui-popover-content-container": {
-      position: "fixed !important",
-      top: "64px !important",
-    },
-  });
 
-  globalStyles();
-  // fix for popover not keep position with parent container
-
+  const handleChangeNavbar = (e: any) => {
+    setIsNavbarActive(e);
+  };
   return (
-    <Nav variant="sticky" maxWidth="fluid">
-      <Nav.Toggle showIn="xs" />
+    <Nav variant="sticky" maxWidth="fluid" css={{zIndex: 999}}>
+      <Nav.Toggle showIn="md" />
       <Nav.Brand
-        hideIn="xs"
+        hideIn="md"
         css={{
           "@xs": {
             w: "12%",
@@ -89,15 +78,40 @@ function Header({}: Props) {
       <Nav.Content
         enableCursorHighlight
         activeColor="secondary"
-        hideIn="xs"
-        variant="highlight-rounded"
+        hideIn="md"
+        variant="underline"
       >
-        <Nav.Link isActive href="/">
+        <Nav.Link
+          aria-label={"home"}
+          onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
+          href="/"
+          isActive={isNavbarActive === "home"}
+        >
           {trans.home.navbar.home}
         </Nav.Link>
-        <Nav.Link href="/post/2">{trans.home.navbar.category}</Nav.Link>
-        <Nav.Link href="/post/3">{trans.home.navbar.about}</Nav.Link>
-        <Nav.Link href="/post/5">{trans.home.navbar.contact}</Nav.Link>
+        <Nav.Link
+          aria-label={"category"}
+          key="navbar"
+          onClick={(e: any) => console.log(e)}
+          href="/admin/post"
+          isActive={isNavbarActive === "category"}
+        >
+          {trans.home.navbar.category}
+        </Nav.Link>
+        <Nav.Link
+          aria-label={"about"}
+          href="/post/3"
+          isActive={isNavbarActive === "about"}
+        >
+          {trans.home.navbar.about}
+        </Nav.Link>
+        <Nav.Link
+          aria-label={"contact"}
+          href="/post/5"
+          isActive={isNavbarActive === "contact"}
+        >
+          {trans.home.navbar.contact}
+        </Nav.Link>
       </Nav.Content>
       <Nav.Content>
         <Nav.Item
@@ -147,7 +161,7 @@ function Header({}: Props) {
               color="secondary"
               css={{ tt: "capitalize", w: "10px !important" }}
             >
-              English
+              {router.locale || "EN"}
             </Dropdown.Button>
             <Dropdown.Menu
               aria-label="Single Language Option"
@@ -160,14 +174,8 @@ function Header({}: Props) {
                 setLocalStorage("lang", lang);
                 handleChangeLanguage(lang);
               }}
-              css={{ w: "10px" }}
             >
-              <Dropdown.Item
-                key="en"
-                css={{
-                  width: "200px",
-                }}
-              >
+              <Dropdown.Item key="en">
                 <WraperLangItem>
                   <Image
                     src="/image/american_flag.png"
@@ -184,7 +192,7 @@ function Header({}: Props) {
                 <WraperLangItem>
                   <Image
                     src="/image/vietnamese_flag.png"
-                    alt="American flag mmultilanguage"
+                    alt="Vietnamese flag mmultilanguage"
                     width={30}
                     height={20}
                   />
