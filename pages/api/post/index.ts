@@ -25,9 +25,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       let filter: any = {};
       Object.entries(rest).map(([key, value]) => {
         if (!!value) {
-          filter[key] = value;
+          filter[key] = { $regex: value, $options: "i" };
         }
       });
+
+      console.log(filter);
 
       const postList = await Post.find(filter)
         .sort({ id: -1 })
@@ -35,7 +37,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         .skip((Number(page) - 1) * Number(pageSize))
         .exec();
 
-      const total = await Post.count();
+      const total =
+        Object.keys(filter).length > 0 ? postList?.length : await Post.count();
       res.status(200).json({ postList, total });
     } catch (error) {
       res.status(500).json({ error: true, message: error });

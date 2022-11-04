@@ -12,13 +12,7 @@ function CustomPagination({
   ...rest
 }: Props) {
   return (
-    <Container
-      display="flex"
-      justify="flex-end"
-      alignItems="center"
-      css={{ width: "100%", padding: 0 }}
-      fluid
-    >
+    <div style={{float: "right", paddingTop: "10px"}}>
       <select
         onChange={(e) => onChangePaginationSize(e.target.value)}
         style={{
@@ -42,7 +36,7 @@ function CustomPagination({
         onChange={(page) => onChangePagination(page)}
         total={total}
       />
-    </Container>
+    </div>
   );
 }
 

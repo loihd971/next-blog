@@ -20,7 +20,8 @@ import useTrans from "@/utils/useTranslate.js";
 import { Language } from "@/utils/sharedType";
 import { useRouter } from "next/router";
 import { getLocalStorage, setLocalStorage } from "@/services/localStorage";
-
+import { FaJsSquare } from "react-icons/fa";
+import styles from "@/styles/Header.module.scss";
 type Props = {};
 
 function Header({}: Props) {
@@ -53,12 +54,11 @@ function Header({}: Props) {
     alignItems: "center",
   });
 
-
   const handleChangeNavbar = (e: any) => {
     setIsNavbarActive(e);
   };
   return (
-    <Nav variant="sticky" maxWidth="fluid" css={{zIndex: 999}}>
+    <Nav variant="sticky" maxWidth="fluid" css={{ zIndex: 999 }}>
       <Nav.Toggle showIn="md" />
       <Nav.Brand
         hideIn="md"
@@ -68,21 +68,19 @@ function Header({}: Props) {
           },
         }}
       >
-        <Image
-          src="/image/logo.svg"
-          alt="Evanloi blog avatar"
-          width={100}
-          height={76}
-        />
+        <FaJsSquare className={styles.logo} />
+        <Text h6 css={{ paddingLeft: "5px", paddingTop: "7px" }}>
+          EvanLoi{" "}
+        </Text>
       </Nav.Brand>
       <Nav.Content
         enableCursorHighlight
         activeColor="secondary"
-        hideIn="md"
-        variant="underline"
+        hideIn="sm"
+        variant="highlight-rounded"
       >
         <Nav.Link
-          aria-label={"home"}
+          // aria-label={"home"}
           onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
           href="/"
           isActive={isNavbarActive === "home"}
@@ -90,23 +88,24 @@ function Header({}: Props) {
           {trans.home.navbar.home}
         </Nav.Link>
         <Nav.Link
-          aria-label={"category"}
-          key="navbar"
-          onClick={(e: any) => console.log(e)}
-          href="/admin/post"
-          isActive={isNavbarActive === "category"}
-        >
-          {trans.home.navbar.category}
-        </Nav.Link>
-        <Nav.Link
-          aria-label={"about"}
+          // aria-label={"about"}
           href="/post/3"
           isActive={isNavbarActive === "about"}
         >
           {trans.home.navbar.about}
         </Nav.Link>
         <Nav.Link
-          aria-label={"contact"}
+          // aria-label={"category"}
+          key="navbar"
+          onClick={(e: any) => console.log(e)}
+          href="/admin/post"
+          isActive={isNavbarActive === "category"}
+        >
+          {trans.home.navbar.services}
+        </Nav.Link>
+
+        <Nav.Link
+          // aria-label={"contact"}
           href="/post/5"
           isActive={isNavbarActive === "contact"}
         >
@@ -164,7 +163,7 @@ function Header({}: Props) {
               {router.locale || "EN"}
             </Dropdown.Button>
             <Dropdown.Menu
-              aria-label="Single Language Option"
+              // aria-label="Single Language Option"
               color="secondary"
               disallowEmptySelection
               selectionMode="single"

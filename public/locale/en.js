@@ -14,6 +14,7 @@ export default {
       logout: "Logout",
       help_and_feedback: "Help & Feedback",
       search: "Seach",
+      services: "Services"
     },
   },
 };

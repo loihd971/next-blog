@@ -12,11 +12,12 @@ import { AppProps } from "next/app";
 import { darkTheme, lightTheme } from "@/utils/theme.js";
 import { NextUIProvider, createTheme, globalCss } from "@nextui-org/react";
 
+
 // fix for popover not keep position with parent container
 const globalStyles = globalCss({
   ".nextui-popover-content-container": {
     position: "fixed !important",
-    // top: "64px !important",
+    top: "64px !important",
   },
 });
 

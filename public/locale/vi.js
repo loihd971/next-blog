@@ -14,6 +14,7 @@ export default {
       logout: "Đăng xuất",
       help_and_feedback: "Trợ giúp & Phản hồi",
       search: "Tìm kiếm",
+      services: "Dịch vụ"
     },
   },
 };

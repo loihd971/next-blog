@@ -20,6 +20,6 @@ export default function Home({ postList }: { postList: PostType[] }) {
 export const getServerSideProps = async () => {
   const res = await axios.get("http://localhost:3000/api/post");
   return {
-    props: { postList: res?.data?.postList  },
+    props: { postList: res?.data?.postList },
   };
 };

@@ -228,7 +228,7 @@ export default function PostCrud() {
         data
       );
       toast.success("Edit post successfully!");
-      setIsCreatePostModalVisible(false);
+      setIsEditPostModalVisible(false);
     } catch (error) {
       console.log(error);
     } finally {
@@ -445,9 +445,9 @@ export default function PostCrud() {
         )}
 
         <CustomTable
-          shadow={false}
+          shadow={true}
           color="secondary"
-          aria-label="Example pagination  table"
+          // aria-label="Example pagination  table"
           css={{
             height: "auto",
             minWidth: "100%",

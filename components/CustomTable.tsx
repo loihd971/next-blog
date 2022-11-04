@@ -33,8 +33,10 @@ function CustomTable(props: any) {
   const { columns, data, onTableFilter, total, initialFilter, ...rest } = props;
   const [isFilter, setIsFilter] = useState(false);
   const [filters, setFiltes] = useState<any>(initialFilter);
+  const [initialPage, setInitialPage] = useState(1);
 
   const handleChangeValue = (key: string, value: any) => {
+    // setInitialPage(1)
     setFiltes((pre: any) => {
       let finalFilterObj: any = {};
       const filterObj = { ...pre, [key]: value };
@@ -52,6 +54,8 @@ function CustomTable(props: any) {
   const handleChangePaginationSize = (value: any) => {
     setFiltes((pre: any) => ({ ...pre, pageSize: value }));
   };
+  console.log(filters);
+
   useEffect(() => {
     onTableFilter(filters);
   }, [filters]);
@@ -59,6 +63,7 @@ function CustomTable(props: any) {
   return (
     <>
       <Table
+        // aria-label="Table common"
         {...rest}
         sortDescriptor={null}
         onSortChange={async (e) => console.log(e)}
@@ -66,7 +71,7 @@ function CustomTable(props: any) {
         {columns?.map((col: any, _: number) => (
           <Table.Header key={col.key}>
             <Table.Column
-              isRowHeader={false}
+              textValue={col.key}
               allowsSorting
               align="start"
               css={{
@@ -74,8 +79,9 @@ function CustomTable(props: any) {
                 position: col.fixed && "sticky",
                 [col.fixed]: 0,
                 zIndex: 9,
-                height: "100%",
-                userSelect: "all !important",
+                height: "100% !important",
+                padding: "10px 0",
+                // userSelect: "all !important",
               }}
             >
               <div>
@@ -109,7 +115,7 @@ function CustomTable(props: any) {
         ))}
         <Table.Body>
           {data.map((col: any, index: number) => (
-            <Table.Row key={index}>
+            <Table.Row key={Math.random()}>
               {columns.map((item: any) => (
                 <Table.Cell
                   key={item.key}
@@ -130,13 +136,53 @@ function CustomTable(props: any) {
           ))}
         </Table.Body>
       </Table>
+      {/* <table className="custom-table-container">
+        <tr>
+          {columns?.map((col: any, _: number) => (
+            <th key={col.key}>
+              <div>
+                {col.title}
+                {col.filter && (
+                  <FaSearch
+                    onClick={(e: any) => setIsFilter(!isFilter)}
+                    style={{
+                      fontSize: "13px",
+                      marginLeft: "10px",
+                      color: theme.colors.gray700.value,
+                    }}
+                  />
+                )}
+                {col.filter && isFilter && (
+                  <CustomHeaderSearch
+                    searchKey={col.key}
+                    searchtype={col.searchtype}
+                    value={filters[col.key]}
+                    onChangeValue={handleChangeValue}
+                  />
+                )}
+              </div>
+            </th>
+          ))}
+        </tr>
+        {data.map((col: any, index: number) => (
+          <tr key={index}>
+            {columns.map((item: any) => (
+              <td key={item.key}>
+                {item?.render
+                  ? item?.render(col[item.key], col)
+                  : col[item.key]}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </table> */}
       <CustomPagination
         onChangePagination={handleChangePagination}
         onChangePaginationSize={handleChangePaginationSize}
         customCss={{ marginTop: "10px" }}
         shadow
-        total={Math.ceil(total / filters.pageSize)}
-        initialPage={1}
+        total={Math.ceil(total / filters.pageSize) || 1}
+        initialPage={initialPage}
       />
     </>
   );

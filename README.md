@@ -35,3 +35,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 
 ## Deploy with url: https://evanloi-blog.vercel.app/
+
+
+## some error often occur when development:
+
+
+1.Error: There was an error while hydrating. Because the error happened outside of a Suspense boundary, the entire root will switch to client rendering.
+
+2.Error: Hydration failed because the initial UI does not match what was rendered on the server.
+
+See more info here: [https://nextjs.org/docs/messages/react-hydration-error](https://nextjs.org/docs/messages/react-hydration-error)
