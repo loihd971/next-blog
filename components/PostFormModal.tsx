@@ -16,6 +16,7 @@ import { useSession } from "next-auth/react";
 import { S3Client, S3 } from "@aws-sdk/client-s3";
 import { Upload as AwsUpload } from "@aws-sdk/lib-storage";
 import { CrudType, PostType } from "@/utils/sharedType";
+import CustomRichEditor from "./CustomRichEditor";
 
 type Props = {
   visible: boolean;
@@ -39,6 +40,7 @@ function PostFormModal({
   const [formData, setFormData] = useState<any>({});
   const [title, setTitle] = useState<any>(null);
   const [description, setDescription] = useState<any>(null);
+  const [content, setContent] = useState<any>(null);
   const [tags, setTags] = useState<any>(null);
   const [likes, setLikes] = useState<any>(null);
   const [img, setImg] = useState<any>(undefined);
@@ -85,6 +87,14 @@ function PostFormModal({
     }
   }, [description, isSubmit]);
 
+  const contentError = useMemo(() => {
+    if (!content && (isEdit.includes("content") || isSubmit)) {
+      return <Text color="error">{`Content is required`}</Text>;
+    } else {
+      return null;
+    }
+  }, [content, isSubmit]);
+
   const tagsError = useMemo(() => {
     if (!tags && (isEdit.includes("tags") || isSubmit)) {
       return <Text color="error">{`Tags is required`}</Text>;
@@ -118,8 +128,8 @@ function PostFormModal({
   const uploadFile = async (file: any, urlType: string) => {
     try {
       const auth = {
-        accessKeyId: "AKIAU4PH225OEW7UEF7T",
-        secretAccessKey: "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",
+        accessKeyId: process.env.S3_ACCESS_KEY_ID as string,
+        secretAccessKey: process.env.S3_SECRET_ACCESS_KEY as string,
       };
 
       const parallelUploads3 = new AwsUpload({
@@ -203,7 +213,11 @@ function PostFormModal({
         </Text>
       </Modal.Header>
       <Modal.Body
-        css={{ maxHeight: "500px", scrollbarWidth: "5px !important" }}
+        css={{
+          maxHeight: "500px",
+          scrollbarWidth: "5px !important",
+          overflowX: "hidden",
+        }}
       >
         <div>
           <Text h6>Title</Text>
@@ -239,11 +253,22 @@ function PostFormModal({
               setIsEdit((pre: any) => [...pre, "description"]);
             }}
           />
+
           {descriptionError}
         </div>
         <div>
+          <Text h6>Content</Text>
+          <CustomRichEditor
+            value={description}
+            onChange={(e: any) => {
+              setContent(e);
+              setIsEdit((pre: any) => [...pre, "description"]);
+            }}
+          />
+          {contentError}
+        </div>
+        <div>
           <Text h6>Tags</Text>
-          {/* e.target.value.toUpperCase().split(",") */}
           <Input
             clearable
             bordered
@@ -272,7 +297,6 @@ function PostFormModal({
             size="lg"
             placeholder="likes"
           />
-          {/* {handleErrorMessage("title", title, ["required"])} */}
         </div>
         <div>
           <Text h6>Upload Video</Text>
@@ -292,7 +316,7 @@ function PostFormModal({
         </div>
         <div>
           <Text h6>Upload Thumbnail</Text>
-          {type !== CrudType.CREATE  ? (
+          {type !== CrudType.CREATE ? (
             <span>{img}</span>
           ) : (
             <UploadFile
@@ -314,13 +338,14 @@ function PostFormModal({
           Cancel
         </Button>
         <Button
-          disabled={
-            titleError !== null ||
-            descriptionError !== null ||
-            tagsError !== null ||
-            (videoError !== null && type !== CrudType.EDIT) ||
-            (imageError !== null && type !== CrudType.EDIT)
-          }
+          // disabled={
+          //   titleError !== null ||
+          //   descriptionError !== null ||
+          //   contentError !== null ||
+          //   tagsError !== null ||
+          //   (videoPerc !== 100 && type !== CrudType.EDIT) ||
+          //   (imgPerc !== 100 && type !== CrudType.EDIT)
+          // }
           auto
           onClick={() => {
             onSubmit &&
@@ -329,6 +354,7 @@ function PostFormModal({
                 thumbnail: formData.imgUrl,
                 title,
                 description,
+                content,
                 tags,
                 likes,
               });

@@ -50,6 +50,23 @@ export const authOptions = {
       }
       return true;
     },
+    async session({ session, token, user }: any) {
+      dbConnect();
+      
+      try {
+        const isExistUser = await User.find({email: session.user.email});
+        
+        if (isExistUser) {
+          session.user.role = isExistUser[0].role
+        } 
+      } catch (error) {
+        toast.error(JSON.stringify(error));
+      }
+      session.accessToken = token.accessToken;
+      session.user.id = token.id;
+     
+      return session;
+    },
   },
 };
 export default NextAuth(authOptions);

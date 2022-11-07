@@ -54,8 +54,6 @@ function CustomTable(props: any) {
   const handleChangePaginationSize = (value: any) => {
     setFiltes((pre: any) => ({ ...pre, pageSize: value }));
   };
-  console.log(filters);
-
   useEffect(() => {
     onTableFilter(filters);
   }, [filters]);

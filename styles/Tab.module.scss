@@ -1,0 +1,83 @@
+.customtab__wrapper {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  transition: 3s all ease-out;
+  .customtab__button {
+    padding: 2px;
+    border-radius: 10px;
+    display: flex;
+    cursor: pointer;
+    height: 40px;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    width: 100%;
+    .button {
+      cursor: pointer;
+      width: 100%;
+      min-width: 100px;
+      max-height: 50px;
+      background-color: unset;
+      border: none;
+      border-radius: 10px;
+      -webkit-transition: background-color 0.5s ease;
+      transition: background-color 0.5s ease;
+    }
+    .button__active {
+      cursor: pointer;
+      width: 100%;
+      min-width: 100px;
+      max-height: 50px;
+      border: none;
+      border-radius: 10px;
+      -webkit-transition: background-color 0.5s ease;
+      transition: background-color 0.5s ease;
+    }
+  }
+
+  .customtab__content {
+    width: 100%;
+    max-height: calc(100% - 41px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar {
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+  }
+
+  // @-webkit-keyframes touch {
+  //   100% {
+  //     width: 600px;
+  //     height: 600px;
+  //     border-radius: 600px;
+  //     opacity: 0;
+  //     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  //     margin: -300px;
+  //   }
+  // }
+
+  // @keyframes touch {
+  //   100% {
+  //     width: 600px;
+  //     height: 600px;
+  //     border-radius: 600px;
+  //     opacity: 0;
+  //     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  //     margin: -300px;
+  //   }
+  // }
+}

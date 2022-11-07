@@ -16,19 +16,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const newPost = await Post.create(req.body);
       res.status(200).json(newPost);
     } catch (error) {
-      res.status(500).json({error: true, message: error});
+      res.status(500).json({ error: true, message: error });
     }
   }
   if (method === "GET") {
     try {
-      const postList = await Post.find()
-        .limit(Number(limit) * 1)
-        .skip((Number(page) - 1) * Number(limit))
-        .exec();
-      const total = await Post.count();
-      res.status(200).json({ postList, total });
+      const postList = await Post.findById(id);
+
+      res.status(200).json(postList);
     } catch (error) {
-      res.status(500).json({error: true, message: error});
+      res.status(500).json({ error: true, message: error });
     }
   }
 
@@ -50,7 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       res.status(200).json(updatedPost);
     } catch (error) {
-      res.status(500).json({error: true, message: error});
+      res.status(500).json({ error: true, message: error });
     }
   }
   if (method === "DELETE") {
@@ -63,7 +60,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(200).json(deletePost);
     try {
     } catch (error) {
-      res.status(500).json({error: true, message: error});
+      res.status(500).json({ error: true, message: error });
     }
   }
 };

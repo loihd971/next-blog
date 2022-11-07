@@ -4,8 +4,8 @@
 
 * {
   box-sizing: border-box;
-  // user-select: "all !important";
   font-family: "Noto Sans Mono", monospace;
+  scroll-behavior: smooth;
 }
 
 .modal-upload--input__video {
@@ -84,20 +84,17 @@
   background-color: DodgerBlue;
 }
 
-
 .custom-select {
   min-width: 50px;
   max-width: 500px;
   width: 100%;
   height: 25px;
   border-radius: 8px;
-  border: 2px solid; 
   position: relative;
- > select{
-  background-color: red;
+  > select {
     display: none !important;
   }
-  ::after{
+  ::after {
     position: absolute;
     content: "";
     top: 14px;
@@ -124,8 +121,70 @@
     left: 80px;
     width: 260px !important;
     height: 35px;
-    label{
-      background-color:unset
+    label {
+      background-color: unset;
     }
   }
 }
+
+// start scroll to top section
+.top-to-btm {
+  position: relative;
+}
+.icon-position {
+  position: fixed;
+  bottom: 40px;
+  right: 25px;
+  z-index: 20;
+}
+.icon-style {
+  background-color: #551b54;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  color: #fff;
+  cursor: pointer;
+  animation: movebtn 3s ease-in-out infinite;
+  transition: all 0.5s ease-in-out;
+}
+.icon-style:hover {
+  animation: none;
+  background: #fff;
+  color: #551b54;
+  border: 2px solid #551b54;
+}
+@keyframes movebtn {
+  0% {
+    transform: translateY(0px);
+  }
+  25% {
+    transform: translateY(20px);
+  }
+  50% {
+    transform: translateY(0px);
+  }
+  75% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+// end scroll to top section
+
+// start rich editor
+
+.toolbarClassName {
+  
+}
+.editorClassName {
+  max-height: 200px;
+  border-radius: 10px !important;
+}
+
+.wrapperClassName {
+  background-color: silver !important;
+}
+// end rich editor

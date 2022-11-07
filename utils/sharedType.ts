@@ -31,13 +31,14 @@ export type PostType = {
 export enum PostEnum {
   title = "title",
   description = "description",
+  content = "content",
   thumbnail = "thumbnail",
   videoUrl = "videoUrl",
   tags = "tags",
   likes = "likes",
   createdAt = "createdAt",
   updatedAt = "updatedAt",
-  action = "action"
+  action = "action",
 }
 
 export enum Language {

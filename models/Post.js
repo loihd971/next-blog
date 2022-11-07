@@ -12,9 +12,13 @@ const PostSchema = new mongoose.Schema(
       required: true,
       maxlength: 200,
     },
-    thumbnail: {
+    content: {
       type: String,
       required: true,
+    },
+    thumbnail: {
+      type: String,
+      required: false,
     },
     videoUrl: {
       type: String,

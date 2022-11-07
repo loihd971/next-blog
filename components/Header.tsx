@@ -26,12 +26,29 @@ type Props = {};
 
 function Header({}: Props) {
   const router = useRouter();
-  const { setTheme } = useNextTheme();
+  const { setTheme, theme } = useNextTheme();
   const { isDark, type } = useTheme();
+  const [isTop, setIsTop] = useState(false);
+
   const [isNavbarActive, setIsNavbarActive] = useState("home");
   const handleChangeLanguage = (lang: string) => {
     router.push("/", "/", { locale: lang });
   };
+
+  useEffect(() => {
+    const handler = () => {
+      if (window.scrollY > 150) {
+        setIsTop(true);
+      } else {
+        setIsTop(false);
+      }
+    };
+
+    window.addEventListener("scroll", handler);
+
+    return () => window.removeEventListener("scroll", handler);
+  }, []);
+
 
   const trans = useTrans();
   const collapseItems = [
@@ -47,7 +64,8 @@ function Header({}: Props) {
     "Log Out",
   ];
   const { data: session }: any = useSession();
-  console.log(session);
+
+  
 
   const WraperLangItem = styled("div", {
     display: "flex",
@@ -77,36 +95,38 @@ function Header({}: Props) {
         enableCursorHighlight
         activeColor="secondary"
         hideIn="sm"
-        variant="highlight-rounded"
+        variant="underline-rounded"
       >
         <Nav.Link
-          // aria-label={"home"}
+          aria-label={"home"}
           onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
-          href="/"
+          href={`/${router.locale}`}
           isActive={isNavbarActive === "home"}
         >
           {trans.home.navbar.home}
         </Nav.Link>
         <Nav.Link
-          // aria-label={"about"}
-          href="/post/3"
+          aria-label={"about"}
+          href="#"
           isActive={isNavbarActive === "about"}
+          onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
         >
           {trans.home.navbar.about}
         </Nav.Link>
         <Nav.Link
-          // aria-label={"category"}
+          aria-label={"category"}
           key="navbar"
-          onClick={(e: any) => console.log(e)}
-          href="/admin/post"
+          onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
+          href="#"
           isActive={isNavbarActive === "category"}
         >
           {trans.home.navbar.services}
         </Nav.Link>
 
         <Nav.Link
-          // aria-label={"contact"}
-          href="/post/5"
+          aria-label={"contact"}
+          onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
+          href="#contact"
           isActive={isNavbarActive === "contact"}
         >
           {trans.home.navbar.contact}
@@ -220,7 +240,7 @@ function Header({}: Props) {
                   pointer
                   size="lg"
                   src={session?.user?.image}
-                  color="gradient"
+                  color="secondary"
                   bordered
                 />
               </Dropdown.Trigger>

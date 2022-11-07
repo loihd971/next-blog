@@ -1,18 +1,20 @@
 import { Card, Col, Row, Button, Text } from "@nextui-org/react";
+import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { MouseEventHandler } from "react";
 
 export const PostCard = ({ post }: { post: any }) => {
   const router = useRouter();
-  const handleClick = (
-    e: React.FormEvent<HTMLInputElement>
-  ) => {
+  const handleClick = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
     router.push({
       pathname: "/post/[id]",
-      query: { id: post._id },
-    });
+      query: { id: post._id},
+      locale: router.locale 
+    } as any);
   };
+
+  console.log(post);
 
   return (
     <Card
@@ -23,17 +25,15 @@ export const PostCard = ({ post }: { post: any }) => {
     >
       <Card.Header css={{ position: "absolute", zIndex: 1, top: 5 }}>
         <Col>
-          <Text size={12} weight="bold" transform="uppercase" color="#ffffffAA">
-            New
+          <Text size={12} weight="bold" transform="uppercase">
+            {post.title}
           </Text>
-          <Text h3 color="black">
-            Acme camera
-          </Text>
+          <Text h3>{post.description}</Text>
         </Col>
       </Card.Header>
       <Card.Body css={{ p: 0 }}>
         <Card.Image
-          src="https://nextui.org/images/card-example-6.jpeg"
+          src={post.thumbnail}
           width="100%"
           height="100%"
           objectFit="cover"
@@ -52,12 +52,12 @@ export const PostCard = ({ post }: { post: any }) => {
       >
         <Row>
           <Col>
-            <Text color="#000" size={12}>
-              Available soon.
+            <Text h6 color="#000" size={12}>
+              5 mins to read
             </Text>
-            <Text color="#000" size={12}>
+            {/* <Text h6 color="#000" size={12}>
               Get notified.
-            </Text>
+            </Text> */}
           </Col>
           <Col>
             <Row justify="flex-end">
@@ -68,7 +68,7 @@ export const PostCard = ({ post }: { post: any }) => {
                   weight="bold"
                   transform="uppercase"
                 >
-                  Notify Me
+                  Read Now
                 </Text>
               </Button>
             </Row>

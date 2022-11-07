@@ -1,4 +1,4 @@
-import { Input, styled, useTheme } from "@nextui-org/react";
+import { Input, styled,  useTheme, theme} from "@nextui-org/react";
 import CustomSelect from "@/components/CustomSelect";
 import { PHONE_CODE } from "@/utils/phoneCode";
 import { useCallback, useEffect, useState } from "react";
@@ -40,7 +40,6 @@ const CustomPhoneInput = ({
         type="number"
         maxLength={10}
         value={inputValue}
-        // onKeyDown={(e) => InputOnlyNumber(e)}
         onChange={(e: any) => {
           const fotmatInputValue = e.target.value;
           const allValue =

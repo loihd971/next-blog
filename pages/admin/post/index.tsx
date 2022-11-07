@@ -69,6 +69,23 @@ export default function PostCrud() {
       dataIndex: PostEnum.description,
     },
     {
+      title: "Content",
+      width: 250,
+      filter: true,
+      searchtype: "text", 
+      key: PostEnum.content,
+      dataIndex: PostEnum.content,
+      render: (value: any) => {
+        return (
+          <Tooltip content={value} color="primary">
+            <Button auto light>
+              {value?.slice(0, 20)}...
+            </Button>
+          </Tooltip>
+        );
+      },
+    },
+    {
       title: "Tags",
       key: PostEnum.tags,
       searchtype: "text",
@@ -97,7 +114,7 @@ export default function PostCrud() {
         return (
           <Tooltip content={value} color="primary">
             <Button auto light>
-              {value.slice(0, 5)}...
+              {value?.slice(0, 5)}...
             </Button>
           </Tooltip>
         );
@@ -114,7 +131,7 @@ export default function PostCrud() {
         return (
           <Tooltip content={value} color="primary">
             <Button auto light>
-              {value.slice(0, 5)}...
+              {value?.slice(0, 5)}...
             </Button>
           </Tooltip>
         );
@@ -447,7 +464,6 @@ export default function PostCrud() {
         <CustomTable
           shadow={true}
           color="secondary"
-          // aria-label="Example pagination  table"
           css={{
             height: "auto",
             minWidth: "100%",

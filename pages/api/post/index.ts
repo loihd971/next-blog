@@ -29,8 +29,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         }
       });
 
-      console.log(filter);
-
       const postList = await Post.find(filter)
         .sort({ id: -1 })
         .limit(Number(pageSize) * 1)

@@ -33,6 +33,6 @@
     "i18n.config.js",
     "public/locale/vi.js",
     "public/locale/en.js"
-, "utils/useTranslate.js", "utils/theme.js"  ],
+, "utils/useTranslate.js", "utils/theme.js", "components/Layout.tsx", "utils/editorToolbar.js"  ],
   "exclude": ["node_modules"]
 }

@@ -11,6 +11,7 @@ import {
   theme,
   useTheme,
   Textarea,
+  Tooltip,
 } from "@nextui-org/react";
 import {
   FaGithub,
@@ -22,6 +23,8 @@ import {
   FaPaperPlane,
   FaSlack,
   FaJsSquare,
+  FaRegPaperPlane,
+  FaFileDownload,
 } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -29,11 +32,13 @@ import CustomSelect from "@/components/CustomSelect";
 import { PHONE_CODE } from "@/utils/phoneCode";
 import CustomPhoneInput, { StyledContactInput } from "@/components/CustomInput";
 import { StyledContactTextarea } from "@/components/CustomeTextarea";
+import axios from "axios";
 
 type Props = {};
 
 function Footer({}: Props) {
   const { isDark } = useTheme();
+
   const [inputs, setInputs] = useState<any>({
     name: "",
     email: "",
@@ -44,6 +49,31 @@ function Footer({}: Props) {
   const [isSubmit, setIsSubmit] = useState(false);
 
   const [form, setForm] = useState<any>("");
+
+  // const downloadCv = async () => {
+  //   try {
+  //     const res = await axios.get(`http://localhost:3000/api/downloadPDF`);
+  //     const code = res.status;
+  //     if (code === 200) {
+  //       const headers = res?.headers;
+  //       const fileName = headers["content-disposition"]
+  //         ?.split("filename=")[1]
+  //         ?.split(";")[0] as any;
+  //       const url = window.URL.createObjectURL(
+  //         new Blob([res.data], {
+  //           type: `${headers["content-type"]}`,
+  //         })
+  //       );
+  //       const link = document.createElement("a");
+  //       link.href = url;
+  //       link.setAttribute("download", fileName);
+  //       document.body.appendChild(link);
+  //       link.click();
+  //     }
+  //   } catch (error) {
+  //     console.log("error:", error);
+  //   }
+  // };
 
   const handleChange = (e: any) => {
     if (e) {
@@ -119,15 +149,15 @@ function Footer({}: Props) {
 
   return (
     <Grid.Container
+      id="contact"
       gap={2}
       css={{
         minHeight: "calc(100vh - 76px)",
         height: "100%",
-        margin: "0 !important",
         backgroundImage: `${
           isDark
-            ? 'url("/image/footer_background_el.svg") !important'
-            : 'url("/image/footer_background_el_light.svg") !important'
+            ? 'url("/image/footer_dark.svg") !important'
+            : 'url("/image/footer_light.svg") !important'
         } `,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
@@ -194,6 +224,7 @@ function Footer({}: Props) {
             type="submit"
             onClick={(e) => handleSendMail(e)}
           >
+            <FaRegPaperPlane style={{ paddingRight: "5px", width: "100%" }} />
             {form.state === "loading" ? "Sending" : "Send"}
           </Button>
         </Grid>
@@ -223,6 +254,18 @@ function Footer({}: Props) {
               <FaTwitter className={styles.contact__icon} />{" "}
               <FaFacebookSquare className={styles.contact__icon} />
               <FaSlack className={styles.contact__icon} />
+              <Tooltip content={<Text h6>Download My Resume</Text>}>
+                <a
+                  href="/mycv.pdf"
+                  download="mycv.pdf"
+                  className={styles.downloadcv__section}
+                >
+                  <FaFileDownload
+                    style={{ fill: theme.colors.accents9.computedValue }}
+                    className={styles.downloadcv__section__icon}
+                  />
+                </a>
+              </Tooltip>
             </div>
           </Grid>
           <Grid xs={12} sm={3} md={3} lg={3} xl={3} direction="column">

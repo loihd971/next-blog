@@ -45,3 +45,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 2.Error: Hydration failed because the initial UI does not match what was rendered on the server.
 
 See more info here: [https://nextjs.org/docs/messages/react-hydration-error](https://nextjs.org/docs/messages/react-hydration-error)
+
+3.popover of nextui not absolute by parent
+
+
