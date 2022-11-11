@@ -3,12 +3,14 @@
 .tab__post {
   height: 500px;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .post__image {
   border-radius: 10px;
   margin: 0 10px;
+  width: 60px;
+  height: 60px;
 }
 
 .tabchild__icon {
@@ -22,21 +24,18 @@
 // post-detail
 .post__detail {
   position: relative;
-  
   width: 100%;
   height: 100%;
-  // overflow: auto;
-  min-width: 500px;
   min-height: calc(100vh - 10px);
-  padding: 24px;
+  padding: 24px 48px;
   .postdetail__icon_group {
     font-size: 20px;
     cursor: pointer;
     position: absolute;
     display: flex;
     flex-direction: column;
-    left: 1%;
-    top: 10%;
+    left: 2%;
+    top: 50px;
     .postdetail__icon {
       width: 10px;
       display: flex;
@@ -54,9 +53,7 @@
   }
 }
 .post__content {
-  // background-color: silver;
   width: 100%;
-  // height: 100%;
   border-radius: 10px;
   padding: 10px;
   .post__info {
@@ -64,6 +61,7 @@
     align-items: center;
     justify-content: space-between;
     padding-bottom: 50px;
+    flex-wrap: wrap;
     &__left {
       display: flex;
       align-items: center;
@@ -76,6 +74,7 @@
     }
   }
   .post_description {
+    word-wrap: break-word;
     padding-bottom: 50px;
     min-height: calc(100vh - 500px);
   }
@@ -84,6 +83,24 @@
     width: 100%;
     &__followicon {
       margin-right: 5px;
+    }
+    .editor__wrapper {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      border-radius: 5px;
+      height: 100%;
+      min-height: 50px;
+      cursor: pointer;
+      .editor__action__button {
+        padding-top: 10px;
+        display: flex;
+        button {
+          &:nth-child(1) {
+            margin-right: 10px;
+          }
+        }
+      }
     }
   }
 }

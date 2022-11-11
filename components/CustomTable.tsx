@@ -36,7 +36,6 @@ function CustomTable(props: any) {
   const [initialPage, setInitialPage] = useState(1);
 
   const handleChangeValue = (key: string, value: any) => {
-    // setInitialPage(1)
     setFiltes((pre: any) => {
       let finalFilterObj: any = {};
       const filterObj = { ...pre, [key]: value };
@@ -60,81 +59,82 @@ function CustomTable(props: any) {
 
   return (
     <>
-      <Table
-        // aria-label="Table common"
-        {...rest}
-        sortDescriptor={null}
-        onSortChange={async (e) => console.log(e)}
-      >
-        {columns?.map((col: any, _: number) => (
-          <Table.Header key={col.key}>
-            <Table.Column
-              textValue={col.key}
-              allowsSorting
-              align="start"
-              css={{
-                minWidth: col.width,
-                position: col.fixed && "sticky",
-                [col.fixed]: 0,
-                zIndex: 9,
-                height: "100% !important",
-                padding: "10px 0",
-                // userSelect: "all !important",
-              }}
-            >
-              <div>
-                <Text css={{ display: "flex", alignItems: "center" }}>
-                  {col.title}
-                  {col.filter && (
-                    <FaSearch
-                      onClick={(e: any) => setIsFilter(!isFilter)}
-                      style={{
-                        fontSize: "13px",
-                        marginLeft: "10px",
-                        color: theme.colors.gray700.value,
-                      }}
+      <div style={{minHeight: 'calc(100vh - 250px)', borderRadius: '20px', backgroundColor: theme?.colors?.accents4?.value}}>
+        <Table
+          aria-label="custom-table"
+          {...rest}
+          sortDescriptor={null}
+          onSortChange={async (e) => console.log(e)}
+        >
+          {columns?.map((col: any, _: number) => (
+            <Table.Header key={col.key}>
+              <Table.Column
+                textValue={col.key}
+                allowsSorting
+                align="start"
+                css={{
+                  minWidth: col.width,
+                  position: col.fixed && "sticky",
+                  [col.fixed]: 0,
+                  zIndex: 9,
+                  height: "100% !important",
+                  padding: "10px 0",
+                  // userSelect: "all !important",
+                }}
+              >
+                <div>
+                  <Text css={{ display: "flex", alignItems: "center" }}>
+                    {col.title}
+                    {col.filter && (
+                      <FaSearch
+                        onClick={(e: any) => setIsFilter(!isFilter)}
+                        style={{
+                          fontSize: "13px",
+                          marginLeft: "10px",
+                          color: theme.colors.gray700.value,
+                        }}
+                      />
+                    )}
+                    {col.sortable && (
+                      <FaSort onClick={() => console.log("rsds")} />
+                    )}
+                  </Text>
+                  {col.filter && isFilter && (
+                    <CustomHeaderSearch
+                      searchKey={col.key}
+                      searchtype={col.searchtype}
+                      value={filters[col.key]}
+                      onChangeValue={handleChangeValue}
                     />
                   )}
-                  {col.sortable && (
-                    <FaSort onClick={() => console.log("rsds")} />
-                  )}
-                </Text>
-                {col.filter && isFilter && (
-                  <CustomHeaderSearch
-                    searchKey={col.key}
-                    searchtype={col.searchtype}
-                    value={filters[col.key]}
-                    onChangeValue={handleChangeValue}
-                  />
-                )}
-              </div>
-            </Table.Column>
-          </Table.Header>
-        ))}
-        <Table.Body>
-          {data.map((col: any, index: number) => (
-            <Table.Row key={Math.random()}>
-              {columns.map((item: any) => (
-                <Table.Cell
-                  key={item.key}
-                  css={{
-                    minWidth: col.width,
-                    position: item.fixed && "sticky",
-                    backdropFilter: item.fixed && "blur(10px)",
-                    [item.fixed]: 0,
-                    zIndex: 9,
-                  }}
-                >
-                  {item?.render
-                    ? item?.render(col[item.key], col)
-                    : col[item.key]}
-                </Table.Cell>
-              ))}
-            </Table.Row>
+                </div>
+              </Table.Column>
+            </Table.Header>
           ))}
-        </Table.Body>
-      </Table>
-      {/* <table className="custom-table-container">
+          <Table.Body>
+            {data.map((col: any, index: number) => (
+              <Table.Row key={Math.random()}>
+                {columns.map((item: any) => (
+                  <Table.Cell
+                    key={item.key}
+                    css={{
+                      minWidth: col.width,
+                      position: item.fixed && "sticky",
+                      backdropFilter: item.fixed && "blur(10px)",
+                      [item.fixed]: 0,
+                      zIndex: 9,
+                    }}
+                  >
+                    {item?.render
+                      ? item?.render(col[item.key], col)
+                      : col[item.key]}
+                  </Table.Cell>
+                ))}
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+        {/* <table className="custom-table-container">
         <tr>
           {columns?.map((col: any, _: number) => (
             <th key={col.key}>
@@ -174,6 +174,7 @@ function CustomTable(props: any) {
           </tr>
         ))}
       </table> */}
+      </div>
       <CustomPagination
         onChangePagination={handleChangePagination}
         onChangePaginationSize={handleChangePaginationSize}

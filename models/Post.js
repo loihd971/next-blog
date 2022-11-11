@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const PostSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+      require: true,
+    },
     title: {
       type: String,
       required: true,
@@ -29,6 +33,10 @@ const PostSchema = new mongoose.Schema(
       default: [],
     },
     likes: {
+      type: [String],
+      default: [],
+    },
+    dislikes: {
       type: [String],
       default: [],
     },

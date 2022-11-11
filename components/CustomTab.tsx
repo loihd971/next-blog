@@ -19,7 +19,7 @@ function CustomTab({
   const [activeKeys, setActiveKeys] = useState(defaultActive);
 
   return (
-    <div className={styles.customtab__wrapper} {...rest}>
+    <div className={styles.customtab__wrapper} {...rest} style={{ border: `1px solid ${theme?.colors.accents3.value},` }}>
       <div className={styles.customtab__button} style={{background: theme.colors.secondaryBorder.value}}>
         {tabOptions?.map((i: TabProps, k: string) => {
           return (

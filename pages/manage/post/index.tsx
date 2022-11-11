@@ -10,6 +10,7 @@ import {
   User,
   styled,
   Text,
+  theme as altTheme,
   Table,
   Popover,
   globalCss,
@@ -28,11 +29,15 @@ import { CrudType, PostEnum, PostType } from "@/utils/sharedType";
 import ConfirmModal from "@/components/ConfirmModal";
 import { useMediaQuery } from "@/utils/useMediaQuery.js";
 import CustomTable, { Cols } from "@/components/CustomTable";
+import { FORMAT_TIME } from "@/utils/constant";
+import { useSession } from "next-auth/react";
 
 export default function PostCrud() {
+  const { data: session }: any = useSession();
   const defaultFilter = {
     page: 1,
     pageSize: 10,
+    userId: session?.user?.id,
   };
   const isMd = useMediaQuery(960);
   const [tableData, setTableData] = useState([]);
@@ -56,23 +61,32 @@ export default function PostCrud() {
       // sortable: true,
       searchtype: "text",
       filter: true,
-      width: 250,
+      width: 300,
       dataIndex: PostEnum.title,
     },
     {
       title: "Description",
-      width: 250,
+      width: 300,
       filter: true,
       searchtype: "text",
 
       key: PostEnum.description,
       dataIndex: PostEnum.description,
+      render: (value: any) => {
+        return (
+          <Tooltip content={value} color="primary">
+            <Button auto light>
+              {value?.slice(0, 20)}...
+            </Button>
+          </Tooltip>
+        );
+      },
     },
     {
       title: "Content",
-      width: 250,
+      width: 300,
       filter: true,
-      searchtype: "text", 
+      searchtype: "text",
       key: PostEnum.content,
       dataIndex: PostEnum.content,
       render: (value: any) => {
@@ -92,13 +106,13 @@ export default function PostCrud() {
 
       filter: true,
       dataIndex: PostEnum.tags,
-      width: 250,
+      width: 300,
     },
     {
       title: "Likes",
       searchtype: "text",
 
-      width: 250,
+      width: 300,
       key: PostEnum.likes,
       filter: true,
       dataIndex: PostEnum.likes,
@@ -109,7 +123,7 @@ export default function PostCrud() {
       filter: true,
       dataIndex: PostEnum.videoUrl,
       searchtype: "text",
-      width: 250,
+      width: 300,
       render: (value: any) => {
         return (
           <Tooltip content={value} color="primary">
@@ -125,7 +139,7 @@ export default function PostCrud() {
       key: PostEnum.thumbnail,
       filter: true,
       dataIndex: PostEnum.thumbnail,
-      width: 250,
+      width: 300,
       searchtype: "text",
       render: (value: any) => {
         return (
@@ -144,20 +158,20 @@ export default function PostCrud() {
       searchtype: "date",
 
       dataIndex: PostEnum.createdAt,
-      width: 250,
+      width: 300,
       render: (value: any) => {
-        return moment(value).format("YYYY-MM-DD");
+        return moment(value).format(FORMAT_TIME);
       },
     },
     {
       title: "Updated At",
       key: PostEnum.updatedAt,
-      width: 250,
+      width: 300,
       filter: true,
       searchtype: "date",
       dataIndex: PostEnum.updatedAt,
       render: (value: any) => {
-        return moment(value).format("YYYY-MM-DD");
+        return moment(value).format(FORMAT_TIME);
       },
     },
     {
@@ -234,7 +248,7 @@ export default function PostCrud() {
     } catch (error) {
       console.log(error);
     } finally {
-      handleFetchTableData(filters);
+      handleFetchTableData({ ...filters, userId: session?.user?.id });
     }
   };
 
@@ -249,7 +263,7 @@ export default function PostCrud() {
     } catch (error) {
       console.log(error);
     } finally {
-      handleFetchTableData(filters);
+      handleFetchTableData({ ...filters, userId: session?.user?.id });
     }
   };
 
@@ -263,14 +277,14 @@ export default function PostCrud() {
       setIsDeletePostModalVisible(false);
     } catch (error) {
     } finally {
-      handleFetchTableData(filters);
+      handleFetchTableData({ ...filters, userId: session?.user?.id });
     }
   };
 
   const handleFetchTableData = async (filters: any) => {
     try {
       const res = await axios.get("http://localhost:3000/api/post", {
-        params: filters,
+        params: { ...filters, userId: session?.user?.id },
       });
 
       setTableData(res.data.postList);
@@ -281,8 +295,8 @@ export default function PostCrud() {
   };
 
   useEffect(() => {
-    handleFetchTableData(filters);
-  }, [JSON.stringify(filters)]);
+    handleFetchTableData({ ...filters, userId: session?.user?.id });
+  }, [JSON.stringify(filters), session?.user?.id]);
 
   const handleViewPost = (record: PostType) => {
     setInitFormData(record);
@@ -303,14 +317,14 @@ export default function PostCrud() {
   };
 
   const handleTableFilter = (value: any) => {
-    setFilters((pre: any) => ({ ...pre, ...value }));
+    setFilters((pre: any) => ({ ...pre, ...value, userId: session?.user?.id }));
   };
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ backgroundColor: theme?.colors?.red900?.value}}>
       <Grid.Container gap={2} justify="flex-end">
         <Grid xs={8} sm={4} md={4} justify="flex-end" alignItems="center">
-          <Button
+          {/* <Button
             size="sm"
             shadow
             color="secondary"
@@ -318,7 +332,7 @@ export default function PostCrud() {
             onClick={() => setIsFilterBlockVisible(!isFilterBlockVisible)}
           >
             Filter
-          </Button>
+          </Button> */}
           <Button
             shadow
             size="sm"
@@ -467,6 +481,9 @@ export default function PostCrud() {
           css={{
             height: "auto",
             minWidth: "100%",
+            padding: '0',
+            borderRadius: 0
+           
           }}
           initialFilter={defaultFilter}
           total={tableTotal}

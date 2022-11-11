@@ -1,10 +1,14 @@
+import About from "@/components/About";
 import PostList from "@/components/PostList";
 import { PostType } from "@/utils/sharedType";
 import axios from "axios";
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
+import { InferGetServerSidePropsType } from "next";
 
-export default function Home({ postList }: { postList: PostType[] }) {
+export default function Home({
+  postList,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
   return (
     <div className={styles.container}>
       <Head>
@@ -19,6 +23,7 @@ export default function Home({ postList }: { postList: PostType[] }) {
 
 export const getServerSideProps = async () => {
   const res = await axios.get("http://localhost:3000/api/post");
+
   return {
     props: { postList: res?.data?.postList },
   };

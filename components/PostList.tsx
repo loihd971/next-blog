@@ -31,14 +31,16 @@ function PostList({ postList }: { postList: PostType[] }) {
       css={{
         minHeight: "calc(100vh - 76px)",
         height: "100%",
-        backgroundImage: `${
-          isDark
-            ? 'url("/image/postlist_dark.svg") !important'
-            : 'url("/image/postlist_light.svg") !important'
-        } `,
+        // backgroundImage: `${
+        //   isDark
+        //     ? 'url("/image/postlist_dark.svg") !important'
+        //     : 'url("/image/postlist_light.svg") !important'
+        // } `,
+        background: theme?.colors.red900.value,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
+        position: 'relative'
       }}
     >
       <Grid xs={12} sm={3} md={3} lg={3} xl={2}>
@@ -60,10 +62,9 @@ function PostList({ postList }: { postList: PostType[] }) {
         lg={3}
         xl={3}
         justify="center"
-        css={{ padding: "24px" }}
+        css={{ padding: "24px", position: 'sticky !important', top: "0px"}}
       >
         <div
-          style={{ border: `3px solid ${theme?.colors.border.value}` }}
           className={styles.tab__post}
         >
           <CustomTab

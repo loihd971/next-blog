@@ -1,5 +1,5 @@
 import { PostType } from "@/utils/sharedType";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import {
   Container,
   Card,
@@ -26,16 +26,63 @@ import {
 } from "react-icons/fa";
 import { useSession } from "next-auth/react";
 import moment from "moment";
-import { SlUserFollow } from "react-icons/sl";
+import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
 import CustomRichEditor from "@/components/CustomRichEditor";
+import { toast } from "react-toastify";
+import CustomComment from "@/components/CustomComment";
+import { FORMAT_TIME } from "@/utils/constant";
+import { FacebookIcon, FacebookShareButton } from "react-share";
+import { useRouter } from "next/router";
 
-type Props = { data: any };
+type Props = {};
 
-export default function Post({ data }: Props) {
+export default function Post({ relatedPost }: Props | any) {
+  const router = useRouter();
+  const commentSectionRef = useRef<any>(null);
   const { data: session }: any = useSession();
   const { theme, isDark } = useTheme();
   const [tabContent, setTabContent] = useState([]);
   const [comment, setComment] = useState(undefined);
+  const [isEditorVisible, setEditorVisible] = useState(false);
+  const [commentList, setCommentList] = useState<any>([]);
+  const [isCommented, setIsCommented] = useState(1);
+  const [author, setAuthor] = useState<any>({});
+  const [post, setPost] = useState<any>({});
+  const isFollowing = author?.follower?.includes(session?.user?.id);
+
+  const {
+    query: { id },
+  } = router;
+
+  const handleToggleComment = () => {
+    setEditorVisible(true);
+  };
+  const getPostDetail = async () => {
+    try {
+      const res = await axios.get(`http://localhost:3000/api/post/${id}`);
+
+      setPost(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleFollowUser = async () => {
+    const body = {
+      authorId: author._id,
+      followerId: session.user.id,
+    };
+    try {
+      await axios.post(`http://localhost:3000/api/user/follow`, body);
+      getAuthor();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    id && getPostDetail();
+  }, [id]);
 
   const getTabContent = async () => {
     try {
@@ -46,8 +93,172 @@ export default function Post({ data }: Props) {
     }
   };
 
+  const getCommentList = async () => {
+    try {
+      const res: any = await axios.get(
+        `http://localhost:3000/api/comment/${post?._id}`
+      );
+
+      setCommentList(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleReplyComment = async (parentId: string | null, value: string) => {
+    const body = {
+      userId: session?.user?.id,
+      postId: post?._id,
+      userAvatar: session?.user?.image,
+      userName: session?.user?.name,
+      description: value,
+      parentCommentId: parentId,
+    };
+
+    try {
+      const res: any = await axios.post(
+        "http://localhost:3000/api/comment",
+        body
+      );
+      setComment(undefined);
+      setIsCommented(Math.random());
+      toast.success("Reply comment successfully!.");
+    } catch (error: any) {
+      toast.success(error);
+    }
+  };
+
+  const handleEditComment = async (id: string | null, value: string) => {
+    const body = {
+      userId: session?.user?.id,
+      postId: post?._id,
+      userAvatar: session?.user?.image,
+      userName: session?.user?.name,
+      description: value,
+    };
+    try {
+      const res: any = await axios.put(
+        `http://localhost:3000/api/comment/${id}`,
+        body
+      );
+
+      setIsCommented(Math.random());
+      toast.success("Edit comment successfully!.");
+    } catch (error: any) {
+      toast.success(error);
+    }
+  };
+
+  const handleLikePost = async () => {
+    try {
+      await axios.post(`http://localhost:3000/api/post/${post?._id}`, {
+        userId: session.user.id,
+      });
+      getPostDetail();
+      setIsCommented(Math.random());
+    } catch (error: any) {
+      toast.success(error);
+    }
+  };
+  const handleLikeComment = async (id: string | null) => {
+    try {
+      await axios.post(`http://localhost:3000/api/comment/${id}`, {
+        type: "like",
+        userId: session.user.id,
+      });
+
+      setIsCommented(Math.random());
+    } catch (error: any) {
+      toast.success(error);
+    }
+  };
+  const handleDislikeComment = async (id: string | null) => {
+    try {
+      await axios.post(`http://localhost:3000/api/comment/${id}`, {
+        type: "dislike",
+        userId: session.user.id,
+      });
+
+      setIsCommented(Math.random());
+    } catch (error: any) {
+      toast.success(error);
+    }
+  };
+
+  const getAuthor = async () => {
+    if (post?.userId) {
+      try {
+        const res = await axios.get(
+          `http://localhost:3000/api/user/${post?.userId}`
+        );
+        setAuthor(res.data);
+      } catch (error: any) {
+        console.log(error);
+        toast.success(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (post?._id) {
+      getCommentList();
+      getAuthor();
+    }
+  }, [post?._id, isCommented]);
+
+  const getCommentTree = (arr: any[]) => {
+    const tree: any[] = [];
+    const lookup: any = {};
+    arr.forEach((item) => {
+      lookup[item._id] = item;
+      lookup[item._id].children = [];
+    });
+    arr.forEach((record) => {
+      if (record.parentCommentId !== null) {
+        lookup[record.parentCommentId]?.children.push(record);
+      } else {
+        tree.push(record);
+      }
+    });
+    return tree;
+  };
+
+  const renderComment = useMemo(() => {
+    return getCommentTree(commentList).map((item: any) => (
+      <CustomComment
+        key={item._id}
+        comment={item}
+        onComment={(e: any, id: string) => handleReplyComment(id, e)}
+        onEdit={(e: any, id: string) => handleEditComment(id, e)}
+        onLike={(id: string) => handleLikeComment(id)}
+        onDislike={(id: string) => handleDislikeComment(id)}
+      />
+    ));
+  }, [commentList]);
+
   const handleComment = (comment: any) => {
     setComment(comment);
+  };
+
+  const handleSubmitComment = async () => {
+    const body = {
+      userId: session?.user?.id,
+      postId: post?._id,
+      userAvatar: session?.user?.image,
+      userName: session?.user?.name,
+      description: comment,
+    };
+    try {
+      const res: any = await axios.post(
+        "http://localhost:3000/api/comment",
+        body
+      );
+      setComment(undefined);
+      setIsCommented(Math.random());
+      toast.success("Comment successfully!.");
+    } catch (error: any) {
+      toast.success(error);
+    }
   };
 
   useEffect(() => {
@@ -58,7 +269,7 @@ export default function Post({ data }: Props) {
     {
       label: "Related Post",
       key: "related-post",
-      children: <TabContentChildren postList={tabContent} />,
+      children: <TabContentChildren postList={relatedPost} />,
     },
     {
       label: "Latest Post",
@@ -69,16 +280,16 @@ export default function Post({ data }: Props) {
 
   return (
     <Grid.Container
-      // gap={2}
       css={{
         minHeight: "calc(100vh - 76px)",
         height: "100%",
-        backgroundImage: `${
-          isDark
-            ? 'url("/image/postlist_dark.svg") !important'
-            : 'url("/image/postlist_light.svg") !important'
-        } `,
-        // width: "100%",
+        // backgroundImage: `${
+        //   isDark
+        //     ? 'url("/image/postlist_dark.svg") !important'
+        //     : 'url("/image/postlist_light.svg") !important'
+        // } `,
+        width: "100%",
+        background: theme?.colors.red900.value,
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -89,62 +300,166 @@ export default function Post({ data }: Props) {
         <div className={styles.post__detail}>
           <div className={styles.postdetail__icon_group}>
             <div className={styles.postdetail__icon}>
-              <FaRegHeart className={styles.icon} /> <Text h6>1</Text>
+              <FaRegHeart
+                className={styles.icon}
+                onClick={() => handleLikePost()}
+              />{" "}
+              <Text h6>{post?.likes?.length || 0}</Text>
+            </div>
+            <div
+              className={styles.postdetail__icon}
+              onClick={() =>
+                commentSectionRef?.current?.scrollIntoView({
+                  behavior: "smooth",
+                })
+              }
+            >
+              <FaRegCommentAlt className={styles.icon} />{" "}
+              <Text h6>{commentList?.length}</Text>
             </div>
             <div className={styles.postdetail__icon}>
-              <FaRegCommentAlt className={styles.icon} /> <Text h6>1</Text>
+              <FacebookShareButton
+                url={"https://github.com/loihd971/next-blog"}
+                hashtag={post?.tags}
+              >
+                <FaRegShareSquare className={styles.icon} />{" "}
+                {/* <Text h6>1000</Text> */}
+              </FacebookShareButton>
             </div>
             <div className={styles.postdetail__icon}>
-              <FaRegShareSquare className={styles.icon} /> <Text h6>1</Text>
-            </div>
-            <div className={styles.postdetail__icon}>
-              <FaEllipsisH className={styles.icon} /> <Text h6>1</Text>
+              <FaEllipsisH className={styles.icon} />
             </div>
           </div>
           <div
             className={styles.post__content}
-            style={{ backgroundColor: theme?.colors.background.value }}
+            style={{ border: `1px solid ${theme?.colors.border.value} ` }}
           >
             <div className={styles.post__info}>
               <div className={styles.post__info__left}>
                 <Avatar
                   pointer
                   size="lg"
-                  src={session?.user?.image}
+                  src={author?.avatar}
                   color="secondary"
                   bordered
                 />
                 <div className={styles.post__info__author}>
-                  <p>{session?.user?.name}</p>
-                  <p>{moment(data?.createdAt).format("YYYY-MM-DD")}</p>
+                  <p>{author?.name}</p>
+                  <p>{moment(post?.createdAt).format(FORMAT_TIME)}</p>
                 </div>
               </div>
-              <Button
-                css={{ display: "flex", alignItems: "center" }}
-                color="secondary"
-                size="xs"
-              >
-                <SlUserFollow className={styles.post__comment__followicon} />
-                Follow
-              </Button>
+              {author._id !== session?.user?.id &&
+                (isFollowing ? (
+                  <Button
+                    color="secondary"
+                    size="sm"
+                    css={{
+                      display: "flex",
+                      alignItems: "center",
+                      "@xs": {
+                        w: "12%",
+                      },
+                    }}
+                  >
+                    <SlUserFollowing
+                      className={styles.post__comment__followicon}
+                    />
+                    Following
+                  </Button>
+                ) : (
+                  <Button
+                    size="sm"
+                    css={{
+                      display: "flex",
+                      alignItems: "center",
+                      "@xs": {
+                        w: "12%",
+                      },
+                    }}
+                    color="secondary"
+                    onClick={handleFollowUser}
+                  >
+                    <SlUserFollow
+                      className={styles.post__comment__followicon}
+                    />
+                    Follow
+                  </Button>
+                ))}
             </div>
             <div className={styles.post_description}>
-              <Text h1>{data?.title}</Text>
+              <Text h1>{post?.title}</Text>
               <Text h6>
-                {data?.tags?.map((item: any, index: number) => (
-                  <span key={index}>#{item}</span>
+                {post?.tags?.map((item: any, index: number) => (
+                  <span key={index}>{item}&nbsp;</span>
                 ))}
               </Text>
-              <Text h6>{data?.description}</Text>
+              <Text css={{ paddingBottom: "100px" }} h6>
+                {post?.description}{" "}
+              </Text>
+
+              {/* <Image width={200} height={200} src={post?.thumbnail}/> */}
+              <iframe
+                width="100%"
+                height="300"
+                src={post?.videoUrl}
+                frameBorder="0"
+                allowFullScreen={true}
+                title="posted video"
+              ></iframe>
+              <Text
+                h6
+                dangerouslySetInnerHTML={{ __html: post?.content }}
+              ></Text>
             </div>
-            <hr />
+            <hr ref={commentSectionRef} />
+            <br />
             <div className={styles.post__comment}>
               <div className={styles.post__comment__header}>
-                <span>All comments(3)</span>{" "}
+                <span>All comments({commentList?.length})</span>{" "}
               </div>
-              <div>
-                <CustomRichEditor onChange={handleComment} />
+              <br />
+              <div
+                className={styles.editor__wrapper}
+                style={{ border: isEditorVisible ? "unset" : "1px solid" }}
+                onClick={handleToggleComment}
+              >
+                {!isEditorVisible && (
+                  <Text h6 css={{ marginLeft: "10px", marginBottom: "0px" }}>
+                    Add the discussion...
+                  </Text>
+                )}
+                <CustomRichEditor
+                  currentValue={comment}
+                  style={{
+                    display: isEditorVisible ? "block" : "none",
+                  }}
+                  type="create"
+                  onChange={handleComment}
+                />
+                {isEditorVisible && (
+                  <div className={styles.editor__action__button}>
+                    <Button
+                      css={{ display: "flex", alignItems: "center" }}
+                      color="secondary"
+                      size="xs"
+                      onClick={handleSubmitComment}
+                    >
+                      Submit
+                    </Button>
+                    <Button
+                      css={{ display: "flex", alignItems: "center" }}
+                      color="secondary"
+                      size="xs"
+                      onClick={() => setEditorVisible(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                )}
               </div>
+              <br />
+              <br />
+              {renderComment}
             </div>
           </div>
         </div>
@@ -159,7 +474,9 @@ export default function Post({ data }: Props) {
         css={{ padding: "24px" }}
       >
         <div
-          style={{ border: `3px solid ${theme?.colors.border.value}` }}
+          style={{
+            padding: "2px",
+          }}
           className={styles.tab__post}
         >
           <CustomTab
@@ -175,10 +492,18 @@ export default function Post({ data }: Props) {
 
 export const getStaticProps = async ({ params }: any) => {
   try {
-    const res = await axios.get(`http://localhost:3000/api/post/${params.id}`);
+    const posts = await axios.get(
+      `http://localhost:3000/api/post/related-video`,
+      {
+        params: {
+          postId: params.id,
+        },
+      }
+    );
+
     return {
       props: {
-        data: res.data,
+        relatedPost: posts.data,
       },
     };
   } catch (error) {
@@ -190,6 +515,7 @@ export const getStaticProps = async ({ params }: any) => {
 export async function getStaticPaths() {
   try {
     const res: any = await axios.get(`http://localhost:3000/api/post`);
+
     const posts = await res.json();
 
     // Get the paths we want to pre-render based on posts
@@ -201,8 +527,4 @@ export async function getStaticPaths() {
   } catch (error) {
     return { paths: [], fallback: true };
   }
-
-  // We'll pre-render only these paths at build time.
-  // { fallback: blocking } will server-render pages
-  // on-demand if the path doesn't exist.
 }

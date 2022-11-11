@@ -11,14 +11,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   await dbConnect();
   res.setHeader("Allow", ["GET", "PUT", "POST", "DELETE"]);
+  // like post
   if (method === "POST") {
     try {
-      const newPost = await Post.create(req.body);
-      res.status(200).json(newPost);
+      const post = await Post.findByIdAndUpdate(id, {
+        $addToSet: {
+          likes: body.userId,
+        },
+      });
+      res.status(200).json(post);
     } catch (error) {
       res.status(500).json({ error: true, message: error });
     }
   }
+
+  // get detail post
   if (method === "GET") {
     try {
       const postList = await Post.findById(id);
@@ -28,7 +35,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(500).json({ error: true, message: error });
     }
   }
-
+  //  update post
   if (method === "PUT") {
     try {
       const post = await Post.findById(id);
@@ -50,6 +57,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(500).json({ error: true, message: error });
     }
   }
+  // delete post
   if (method === "DELETE") {
     const post = await Post.findById(id);
 

@@ -6,7 +6,15 @@
   box-sizing: border-box;
   font-family: "Noto Sans Mono", monospace;
   scroll-behavior: smooth;
+  // transform-style: preserve-3d;
 }
+
+// start common class
+
+.mr-5 {
+  margin-right: 5px;
+}
+// end common class
 
 .modal-upload--input__video {
   input {
@@ -177,7 +185,6 @@
 // start rich editor
 
 .toolbarClassName {
-  
 }
 .editorClassName {
   max-height: 200px;
@@ -188,3 +195,96 @@
   background-color: silver !important;
 }
 // end rich editor
+
+// start comment section
+.custom-comment__container {
+  position: relative;
+  .custom-border__link {
+    display: block;
+    position: absolute;
+    top: 20px;
+    width: 12px;
+    height: calc(100% - 100px);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    background-clip: padding-box;
+  }
+  .custom-comment__wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    .comment-user__avatar {
+      position: relative;
+
+      .hori-border {
+        position: absolute;
+        top: 20px;
+        left: -12px;
+        width: 15px;
+        height: 4px;
+      }
+    }
+    .custom-comment-section {
+      width: 100%;
+      display: block;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      .custom-comment__action {
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+      .custom-comment__text {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        margin-right: 20px;
+
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+      .edit {
+        color: #0072f5 !important;
+      }
+      .reply {
+        color: #0072f5 !important;
+      }
+    }
+  }
+}
+
+// end comment section
+
+// start header search
+.content-wrapper__search {
+  position: relative;
+
+  .content__search {
+    display: none;
+    position: absolute;
+    width: 600px;
+    height: 500px;
+  }
+
+  .show {
+    display: block;
+  }
+}
+
+// start 404 page
+
+.custom__404page {
+  min-height: calc(100vh - 76px);
+  background: url("https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: 5% 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10%;
+}
+
+// end 404 page

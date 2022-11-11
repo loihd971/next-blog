@@ -21,16 +21,17 @@ export default function TabContentChildren({ postList }: Props | any) {
       locale: router.locale,
     } as any);
   };
+
   return (
     <div>
-      <ul style={{ margin: "12px", paddingTop: "5px" }}>
+      <ul style={{ margin: "0", paddingTop: "5px" }}>
         {postList.map((item: any) => (
           <li
             key={item._id}
             style={{
               position: "relative",
               display: "flex",
-              borderRadius: "10px",
+              borderRadius: "5px",
               padding: "2px",
               alignItems: "center",
               background: `${
@@ -54,16 +55,14 @@ export default function TabContentChildren({ postList }: Props | any) {
               setIsHover(false);
             }}
           >
-            <Image
-              width={60}
-              height={60}
+            <img
               className={styles.post__image}
-              alt={item.description}
-              src={item.thumbnail}
+              alt={item?.description}
+              src={item?.thumbnail}
             />
             <div>
-              <Text h5>{item.title}</Text>
-              <Text h6>{item.description}</Text>
+              <Text h5>{item.title?.slice(0, 10)}...</Text>
+              <Text h6>{item.description?.slice(0, 10)}...</Text>
               {isHover && item._id === hoveredEl && (
                 <div
                   className="tab-child__icon"

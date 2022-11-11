@@ -1,0 +1,41 @@
+@import "./_mixin.scss";
+@import "./_variables.scss";
+
+.about__container {
+  height: 100%;
+  width: 100%;
+  padding-top: 10%;
+  .about__info__wrapper {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    .about__info {
+      display: flex;
+      align-items: center;
+    }
+  }
+  .slider__wrapper {
+    height: 30%;
+    margin-top: 5%;
+  }
+  .about__logo {
+    font-size: 50px !important;
+  }
+  .about__quote {
+    width: 100%;
+    max-width: 740px;
+  }
+
+  .about__header {
+    position: relative;
+    padding: 10%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

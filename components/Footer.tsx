@@ -123,7 +123,7 @@ function Footer({}: Props) {
     if (inputs.name && inputs.email && inputs.message && inputs.phone) {
       setForm({ state: "loading" });
       try {
-        const res = await fetch(`api/contact`, {
+        const res = await fetch(`/api/contact`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -152,7 +152,7 @@ function Footer({}: Props) {
       id="contact"
       gap={2}
       css={{
-        minHeight: "calc(100vh - 76px)",
+        minHeight: "calc(100vh - 30px)",
         height: "100%",
         backgroundImage: `${
           isDark
@@ -174,7 +174,7 @@ function Footer({}: Props) {
         gap={2}
       >
         <Grid xs={12} sm={12} md={12} justify="center">
-          <Text h6>Contact Me</Text>
+          <Text h6>Contact Us</Text>
         </Grid>
 
         <Grid>
@@ -250,7 +250,9 @@ function Footer({}: Props) {
             </Text>
 
             <div className={styles.footer__contact__icon}>
-              <FaGithub className={styles.contact__icon} />{" "}
+              <Link style={{color: theme.colors.accents9.value}} target="_blank" href="https://github.com/loihd971">
+                <FaGithub className={styles.contact__icon}  />{" "}
+              </Link>
               <FaTwitter className={styles.contact__icon} />{" "}
               <FaFacebookSquare className={styles.contact__icon} />
               <FaSlack className={styles.contact__icon} />

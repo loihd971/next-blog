@@ -14,8 +14,6 @@ export const PostCard = ({ post }: { post: any }) => {
     } as any);
   };
 
-  console.log(post);
-
   return (
     <Card
       isPressable

@@ -1,0 +1,92 @@
+.aboutme__main {
+  width: 100%;
+cursor: pointer;
+  border-radius: 10px;
+  .aboutme__skill {
+    min-width: 500px;
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+  }
+  .aboutme__stack {
+    margin-top: 100px;
+    min-width: 500px;
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    position: relative;
+    .aboutme__intro {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      height: 100%;
+      .aboutme__work {
+        width: 100%;
+        height: 30%;
+        margin-bottom: 0;
+        background-color: red;
+      }
+      .aboutme__contact__icon {
+        line-height: 50px;
+        border-bottom: 1px solid;
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        align-items: center;
+        justify-content: space-evenly;
+        &__location {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          h6 {
+            margin: 0;
+          }
+        }
+        &__work {
+          padding: 5px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .link__icon {
+          margin-right: 5px;
+        }
+      }
+      .contact__icon {
+        margin-left: 10px;
+        font-size: 100%;
+      }
+      .downloadcv__section__icon {
+        margin-left: 10px;
+      }
+    }
+    .aboutme__avatar {
+      position: absolute;
+      top: 0%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+.aboutme__main_work {
+  width: 100%;
+  border-radius: 10px;
+  cursor: pointer;
+  .aboutme__skill {
+    padding: 12px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    // align-items: center;
+    min-width: 500px;
+    width: 100%;
+    height: 300px;
+    border-radius: 10px;
+    .skill__item{
+        padding-top: 10px;
+    }
+  }
+}

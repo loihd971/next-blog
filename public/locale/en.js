@@ -6,7 +6,7 @@ export default {
     navbar: {
       home: "Home",
       category: "Category",
-      about: "About",
+      about: "About Us",
       contact: "Contact",
       sign_in_as: "Signed in as",
       login: 'Login',
@@ -14,7 +14,7 @@ export default {
       logout: "Logout",
       help_and_feedback: "Help & Feedback",
       search: "Seach",
-      services: "Services"
+      services: "Posts"
     },
   },
 };

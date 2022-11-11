@@ -11,9 +11,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   await dbConnect();
   res.setHeader("Allow", ["GET", "PUT", "POST", "DELETE"]);
-  if (method === "POST") {
+  if (method === "POST") {    
     try {
-      const newPost = await Post.create(req.body);
+      const newPost = await Post.create(body);
       res.status(200).json(newPost);
     } catch (error) {
       res.status(500).json({ error: true, message: error });

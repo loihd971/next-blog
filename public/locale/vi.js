@@ -6,7 +6,7 @@ export default {
     navbar: {
       home: "Trang chủ",
       category: "Bài viết",
-      about: "Giới thiệu",
+      about: "Về chúng tôi",
       contact: "Liên hệ",
       login: "Đăng nhập",
       signup: "Đăng ký",
@@ -14,7 +14,7 @@ export default {
       logout: "Đăng xuất",
       help_and_feedback: "Trợ giúp & Phản hồi",
       search: "Tìm kiếm",
-      services: "Dịch vụ"
+      services: "Bài viết"
     },
   },
 };

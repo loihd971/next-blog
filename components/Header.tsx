@@ -22,18 +22,27 @@ import { useRouter } from "next/router";
 import { getLocalStorage, setLocalStorage } from "@/services/localStorage";
 import { FaJsSquare } from "react-icons/fa";
 import styles from "@/styles/Header.module.scss";
+import CustomSearchBar from "@/components/CustomSearchBar";
 type Props = {};
 
 function Header({}: Props) {
   const router = useRouter();
-  const { setTheme, theme } = useNextTheme();
-  const { isDark, type } = useTheme();
+  const { setTheme } = useNextTheme();
+  const { isDark, type, theme } = useTheme();
   const [isTop, setIsTop] = useState(false);
+  const [isPress, setIsPress] = useState(0);
 
   const [isNavbarActive, setIsNavbarActive] = useState("home");
   const handleChangeLanguage = (lang: string) => {
     router.push("/", "/", { locale: lang });
+    setIsNavbarActive("home");
   };
+
+  // useEffect(() => {
+  //   if (isPress !== 0) {
+  //     router.push("/", "/", { locale: router.locale });
+  //   }
+  // }, [isPress]);
 
   useEffect(() => {
     const handler = () => {
@@ -49,46 +58,44 @@ function Header({}: Props) {
     return () => window.removeEventListener("scroll", handler);
   }, []);
 
-
   const trans = useTrans();
   const collapseItems = [
-    "Profile",
-    "Dashboard",
-    "Activity",
-    "Analytics",
-    "System",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
+    "Home",
+    "About",
+    "Service",
+    "Contact",
     "Help & Feedback",
     "Log Out",
   ];
   const { data: session }: any = useSession();
-
-  
 
   const WraperLangItem = styled("div", {
     display: "flex",
     alignItems: "center",
   });
 
+  // useEffect(() => {
+  //   if (router?.pathname?.includes("manage")) {
+  //     setIsNavbarActive("manage");
+  //   } else if (router?.pathname?.includes("about")) {
+  //     setIsNavbarActive("about");
+  //   }
+  // }, [router?.pathname]);
+
   const handleChangeNavbar = (e: any) => {
     setIsNavbarActive(e);
   };
   return (
-    <Nav variant="sticky" maxWidth="fluid" css={{ zIndex: 999 }}>
-      <Nav.Toggle showIn="md" />
-      <Nav.Brand
-        hideIn="md"
-        css={{
-          "@xs": {
-            w: "12%",
-          },
-        }}
-      >
+    <Nav
+      variant="sticky"
+      maxWidth="fluid"
+      css={{ zIndex: 999, background: theme?.colors.red900.value }}
+    >
+      <Nav.Toggle showIn="sm" />
+      <Nav.Brand hideIn="sm">
         <FaJsSquare className={styles.logo} />
         <Text h6 css={{ paddingLeft: "5px", paddingTop: "7px" }}>
-          EvanLoi{" "}
+          EvanLoi
         </Text>
       </Nav.Brand>
       <Nav.Content
@@ -105,22 +112,25 @@ function Header({}: Props) {
         >
           {trans.home.navbar.home}
         </Nav.Link>
+        {session?.user?.id && (
+          <Nav.Link
+            aria-label={"manage"}
+            key="navbar"
+            onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
+            href={`/${router.locale}/manage/post`}
+            isActive={isNavbarActive === "manage"}
+          >
+            {trans.home.navbar.services}
+          </Nav.Link>
+        )}
+
         <Nav.Link
           aria-label={"about"}
-          href="#"
+          href="#about"
           isActive={isNavbarActive === "about"}
           onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
         >
           {trans.home.navbar.about}
-        </Nav.Link>
-        <Nav.Link
-          aria-label={"category"}
-          key="navbar"
-          onClick={(e: any) => handleChangeNavbar(e.target.ariaLabel)}
-          href="#"
-          isActive={isNavbarActive === "category"}
-        >
-          {trans.home.navbar.services}
         </Nav.Link>
 
         <Nav.Link
@@ -132,39 +142,7 @@ function Header({}: Props) {
           {trans.home.navbar.contact}
         </Nav.Link>
       </Nav.Content>
-      <Nav.Content>
-        <Nav.Item
-          css={{
-            "@xsMax": {
-              w: "100%",
-              jc: "center",
-            },
-          }}
-        >
-          <Input
-            clearable
-            contentLeft={
-              <HiMagnifyingGlass
-                fill="var(--nextui-colors-accents6)"
-                size={16}
-              />
-            }
-            contentLeftStyling={false}
-            css={{
-              w: "100%",
-              "@xsMax": {
-                mw: "500px",
-              },
-              "& .nextui-input-content--left": {
-                h: "100%",
-                ml: "$4",
-                dflex: "center",
-              },
-            }}
-            placeholder="Search..."
-          />
-        </Nav.Item>
-      </Nav.Content>
+
       <Nav.Content
         css={{
           "@xs": {
@@ -173,7 +151,8 @@ function Header({}: Props) {
           },
         }}
       >
-        <Nav.Item hideIn="sm">
+        <CustomSearchBar />
+        <Nav.Item hideIn="md">
           <Dropdown>
             <Dropdown.Button
               flat
@@ -262,8 +241,11 @@ function Header({}: Props) {
             aria-label="User menu actions"
             color="secondary"
             onAction={(actionKey) => {
+              console.log(actionKey);
+
               if (actionKey === "logout") {
                 signOut();
+                setIsPress(Math.random());
               }
             }}
           >
@@ -275,20 +257,32 @@ function Header({}: Props) {
                 {session?.user?.email}
               </Text>
             </Dropdown.Item>
-            <Dropdown.Item key="settings" withDivider>
-              My Settings
+
+            <Dropdown.Item key="about">
+              <Link
+                href={`/${router.locale}/about-me/${session?.user?.id}`}
+                style={{ color: theme?.colors?.accents9.value, width: "100%" }}
+              >
+                About me
+              </Link>
             </Dropdown.Item>
-            <Dropdown.Item key="team_settings">Team Settings</Dropdown.Item>
-            <Dropdown.Item key="analytics" withDivider>
-              Analytics
+            <Dropdown.Item key="service" withDivider>
+              <a
+                href="/mycv.pdf"
+                download="mycv.pdf"
+                style={{ color: theme?.colors?.accents9.value }}
+              >
+                Download My Resume
+              </a>
             </Dropdown.Item>
-            <Dropdown.Item key="system">System</Dropdown.Item>
-            <Dropdown.Item key="configurations">Configurations</Dropdown.Item>
-            <Dropdown.Item key="help_and_feedback" withDivider>
-              {trans.home.navbar.help_and_feedback}
-            </Dropdown.Item>
+            <Dropdown.Item key="contact">Contact</Dropdown.Item>
             <Dropdown.Item key="logout" withDivider color="error">
-              {trans.home.navbar.logout}
+              <Link
+                href={`/${router.locale}`}
+                style={{ color: theme?.colors?.accents9.value, width: "100%" }}
+              >
+                {trans.home.navbar.logout}
+              </Link>
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

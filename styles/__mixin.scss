@@ -40,7 +40,20 @@
   }
 }
 
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @mixin animationShake() {
   animation-iteration-count: infinite;
   animation: shake 0.5s;
+}
+
+@mixin animationSpin() {
+  animation: spin 2s linear infinite;
 }

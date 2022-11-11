@@ -9,6 +9,8 @@ import { store } from "@/redux/store";
 import { AppProps } from "next/app";
 import { darkTheme, lightTheme } from "@/utils/theme.js";
 import { NextUIProvider, globalCss } from "@nextui-org/react";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import 'react-quill/dist/quill.snow.css';
 

@@ -12,13 +12,25 @@ const CommentSchema = new mongoose.Schema(
       required: true,
       maxlength: 60,
     },
+    userName: {
+      type: String,
+      required: true,
+    },
+    likes: {
+      type: [String],
+      default: [],
+    },
+    dislikes: {
+      type: [String],
+      default: [],
+    },
     userAvatar: {
       type: String,
       required: true,
     },
     description: {
       type: String,
-      required: false,
+      required: true,
     },
     parentCommentId: {
       type: String,

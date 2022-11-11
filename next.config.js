@@ -7,7 +7,14 @@ const nextConfig = {
   swcMinify: true,
   i18n,
   images: {
+    domains: ["firebasestorage.googleapis.com"],
     remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        port: "",
+        pathname: "/*",
+      },
       {
         protocol: "https",
         hostname: "picsum.photos",
@@ -25,7 +32,7 @@ const nextConfig = {
         hostname: "nextauth.nextauth.s3.us-west-1.amazonaws.com",
         port: "",
         pathname: "/*",
-      }
+      },
     ],
   },
 };
