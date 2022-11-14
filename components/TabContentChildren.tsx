@@ -56,6 +56,8 @@ export default function TabContentChildren({ postList }: Props | any) {
             }}
           >
             <img
+              // width={50}
+              // height={50}
               className={styles.post__image}
               alt={item?.description}
               src={item?.thumbnail}

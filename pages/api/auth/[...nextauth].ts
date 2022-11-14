@@ -14,11 +14,13 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
+   
   ] as (OAuthConfig<GoogleProfile> | OAuthConfig<GithubProfile>)[],
 
   callbacks: {
@@ -54,19 +56,27 @@ export const authOptions = {
       dbConnect();
 
       try {
-        const isExistUser = await User.find({ email: session.user.email });
+        const existUser = await User.find({ email: session?.user.email });
 
-        if (isExistUser) {
-          session.user.role = isExistUser[0].role;
-          session.user.id = isExistUser[0]._id;
+        if (existUser) {
+          session.user.role = existUser[0].role;
+          session.user.id = existUser[0]._id;
         }
       } catch (error: any) {
         toast.error(error);
       }
-      session.accessToken = token.accessToken;
+      session.accessToken = token?.accessToken;
 
       return session;
     },
   },
+  session: {
+    maxAge:    30 * 24 * 60 * 60 // 30 day
+  },
+  // pages: {
+  //   signIn: '/signin',
+  //   signOut: '/signin',
+  //   error: '/signin'
+  // },
 };
 export default NextAuth(authOptions);

@@ -59,7 +59,13 @@ function CustomTable(props: any) {
 
   return (
     <>
-      <div style={{minHeight: 'calc(100vh - 250px)', borderRadius: '20px', backgroundColor: theme?.colors?.accents4?.value}}>
+      <div
+        style={{
+          minHeight: "calc(100vh - 250px)",
+          borderRadius: "20px",
+          backgroundColor: theme?.colors?.accents4?.value,
+        }}
+      >
         <Table
           aria-label="custom-table"
           {...rest}
@@ -69,7 +75,7 @@ function CustomTable(props: any) {
           {columns?.map((col: any, _: number) => (
             <Table.Header key={col.key}>
               <Table.Column
-                textValue={col.key}
+                textValue={col.key.toLowerCase()}
                 allowsSorting
                 align="start"
                 css={{

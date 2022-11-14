@@ -74,13 +74,13 @@ function Header({}: Props) {
     alignItems: "center",
   });
 
-  // useEffect(() => {
-  //   if (router?.pathname?.includes("manage")) {
-  //     setIsNavbarActive("manage");
-  //   } else if (router?.pathname?.includes("about")) {
-  //     setIsNavbarActive("about");
-  //   }
-  // }, [router?.pathname]);
+  useEffect(() => {
+    if (router?.pathname?.includes("manage")) {
+      setIsNavbarActive("manage");
+    } else if (router?.pathname?.includes("about")) {
+      setIsNavbarActive("about");
+    }
+  }, [router?.pathname]);
 
   const handleChangeNavbar = (e: any) => {
     setIsNavbarActive(e);
@@ -244,8 +244,10 @@ function Header({}: Props) {
               console.log(actionKey);
 
               if (actionKey === "logout") {
-                signOut();
                 setIsPress(Math.random());
+                router.push("/", "/", { locale: router.locale });
+                signOut();
+               
               }
             }}
           >

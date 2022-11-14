@@ -5,6 +5,7 @@ import axios from "axios";
 import Head from "next/head";
 import styles from "../styles/Home.module.scss";
 import { InferGetServerSidePropsType } from "next";
+import { loadPosts } from "@/services/api";
 
 export default function Home({
   postList,
@@ -22,7 +23,7 @@ export default function Home({
 }
 
 export const getServerSideProps = async () => {
-  const res = await axios.get("http://localhost:3000/api/post");
+  const res = await loadPosts();
 
   return {
     props: { postList: res?.data?.postList },

@@ -152,7 +152,7 @@ export default function Post({ relatedPost }: Props | any) {
   const handleLikePost = async () => {
     try {
       await axios.post(`http://localhost:3000/api/post/${post?._id}`, {
-        userId: session.user.id,
+        userId: session?.user?.id,
       });
       getPostDetail();
       setIsCommented(Math.random());
@@ -164,7 +164,7 @@ export default function Post({ relatedPost }: Props | any) {
     try {
       await axios.post(`http://localhost:3000/api/comment/${id}`, {
         type: "like",
-        userId: session.user.id,
+        userId: session?.user?.id,
       });
 
       setIsCommented(Math.random());
@@ -176,7 +176,7 @@ export default function Post({ relatedPost }: Props | any) {
     try {
       await axios.post(`http://localhost:3000/api/comment/${id}`, {
         type: "dislike",
-        userId: session.user.id,
+        userId: session?.user?.id,
       });
 
       setIsCommented(Math.random());

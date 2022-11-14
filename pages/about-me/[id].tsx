@@ -24,6 +24,8 @@ function AboutMe({ user }: Props | any) {
   const { theme, isDark } = useTheme();
   const [posts, setPosts] = useState(0);
 
+
+
   const getPostByUser = async () => {
     try {
       const res = await axios.get("http://localhost:3000/api/post", {

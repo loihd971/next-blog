@@ -48,7 +48,7 @@ function PostList({ postList }: { postList: PostType[] }) {
       </Grid>
       <Grid xs={12} sm={6} md={6} lg={6} xl={7}>
         <Grid.Container gap={2}>
-          {postList.map((item, index) => (
+          {postList?.map((item, index) => (
             <Grid xs={12} sm={12} md={6} lg={6} xl={4} key={index}>
               <PostCard post={item} />
             </Grid>
