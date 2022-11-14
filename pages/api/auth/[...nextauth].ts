@@ -14,13 +14,11 @@ export const authOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID as string,
       clientSecret: process.env.GITHUB_SECRET as string,
     }),
-   
   ] as (OAuthConfig<GoogleProfile> | OAuthConfig<GithubProfile>)[],
 
   callbacks: {
@@ -70,8 +68,9 @@ export const authOptions = {
       return session;
     },
   },
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
-    maxAge:    30 * 24 * 60 * 60 // 30 day
-  }
+    maxAge: 30 * 24 * 60 * 60, // 30 day
+  },
 };
 export default NextAuth(authOptions);
