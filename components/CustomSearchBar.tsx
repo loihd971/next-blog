@@ -40,10 +40,10 @@ function CustomSearchBar({}: Props) {
       value &&
       setTimeout(() => {
         axios
-          .get("http://localhost:3000/api/post/search", {
+          .get(`${process.env.BASE_URL}/api/post/search`, {
             params: { title: value },
           })
-          .then((data) => {
+          .then((data: any) => {
             console.log(data);
 
             setSearchContent(data.data.postList || []);
@@ -99,7 +99,7 @@ function CustomSearchBar({}: Props) {
             size="lg"
             onClearClick={() => setSearchContent([])}
             placeholder="Search"
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e: any) => setValue(e.target.value)}
             contentLeft={
               <HiMagnifyingGlass
                 fill="var(--nextui-colors-accents6)"

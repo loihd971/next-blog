@@ -241,7 +241,7 @@ export default function PostCrud() {
 
   const handleSubmitCreateForm = async (data: any) => {
     try {
-      await axios.post("http://localhost:3000/api/post", data);
+      await axios.post(`${process.env.BASE_URL}/api/post`, data);
 
       toast.success("Create post successfully!");
       setIsCreatePostModalVisible(false);
@@ -254,7 +254,7 @@ export default function PostCrud() {
   const handleSubmitEditForm = async (data: any) => {
     try {
       await axios.put(
-        `http://localhost:3000/api/post/${initFormData._id}`,
+        `${process.env.BASE_URL}/api/post/${initFormData._id}`,
         data
       );
       toast.success("Edit post successfully!");
@@ -269,7 +269,7 @@ export default function PostCrud() {
   const handleSubmitDeleteForm = async (data: any) => {
     try {
       await axios.delete(
-        `http://localhost:3000/api/post/${initFormData._id}`,
+        `${process.env.BASE_URL}/api/post/${initFormData._id}`,
         data
       );
       toast.success("Delete post successfully!");
@@ -282,7 +282,7 @@ export default function PostCrud() {
 
   const handleFetchTableData = async (filters: any) => {
     try {
-      const res = await axios.get("http://localhost:3000/api/post", {
+      const res = await axios.get(`${process.env.BASE_URL}/api/post`, {
         params: { ...filters, userId: session?.user?.id },
       });
 

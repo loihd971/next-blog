@@ -222,7 +222,7 @@ function Footer({}: Props) {
             css={{ width: "350px" }}
             color="secondary"
             type="submit"
-            onClick={(e) => handleSendMail(e)}
+            onClick={(e: any) => handleSendMail(e)}
           >
             <FaRegPaperPlane style={{ paddingRight: "5px", width: "100%" }} />
             {form.state === "loading" ? "Sending" : "Send"}
