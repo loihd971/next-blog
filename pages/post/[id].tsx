@@ -224,7 +224,7 @@ export default function Post({ relatedPost }: Props | any) {
   };
 
   const renderComment = useMemo(() => {
-    return getCommentTree(commentList).map((item: any) => (
+    return getCommentTree(commentList)?.map((item: any) => (
       <CustomComment
         key={item._id}
         comment={item}
@@ -519,7 +519,7 @@ export async function getStaticPaths() {
     const posts = await res.json();
 
     // Get the paths we want to pre-render based on posts
-    const paths = posts.map((post: any) => ({
+    const paths = posts?.map((post: any) => ({
       params: { id: post._id },
     }));
 
