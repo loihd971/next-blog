@@ -23,7 +23,7 @@ export default function Home({
 }
 
 export const getServerSideProps = async () => {
-  const res = await loadPosts();
+  const res: any = await loadPosts();
 
   return {
     props: { postList: res?.data?.postList },

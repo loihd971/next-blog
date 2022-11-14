@@ -8,6 +8,8 @@ import moment from "moment";
 type Props = {};
 
 export default function TabContentChildren({ postList }: Props | any) {
+  console.log(postList);
+  
   const router = useRouter();
   const [isHover, setIsHover] = useState(false);
   const [hoveredEl, setHoveredEl] = useState(null);
@@ -55,9 +57,9 @@ export default function TabContentChildren({ postList }: Props | any) {
               setIsHover(false);
             }}
           >
-            <img
-              // width={50}
-              // height={50}
+            <Image
+              width={50}
+              height={50}
               className={styles.post__image}
               alt={item?.description}
               src={item?.thumbnail}
