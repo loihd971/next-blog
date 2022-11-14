@@ -14,12 +14,12 @@ function PostList({ postList }: { postList: PostType[] }) {
 
   const tabOptions = [
     {
-      label: "Related Post",
+      label: "Related",
       key: "related-post",
       children: <TabContentChildren postList={postList} />,
     },
     {
-      label: "Latest Post",
+      label: "Latest",
       key: "latest-post",
       children: <TabContentChildren postList={postList} />,
     },

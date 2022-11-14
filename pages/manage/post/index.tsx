@@ -246,7 +246,6 @@ export default function PostCrud() {
       toast.success("Create post successfully!");
       setIsCreatePostModalVisible(false);
     } catch (error) {
-      console.log(error);
     } finally {
       handleFetchTableData({ ...filters, userId: session?.user?.id });
     }
@@ -295,8 +294,10 @@ export default function PostCrud() {
   };
 
   useEffect(() => {
-    handleFetchTableData({ ...filters, userId: session?.user?.id });
-  }, [JSON.stringify(filters), session?.user?.id]);
+    if (session?.user?.id) {
+      handleFetchTableData({ ...filters, userId: session?.user?.id });
+    }
+  }, [filters, session?.user?.id]);
 
   const handleViewPost = (record: PostType) => {
     setInitFormData(record);
@@ -321,7 +322,10 @@ export default function PostCrud() {
   };
 
   return (
-    <div className={styles.container} style={{ backgroundColor: theme?.colors?.red900?.value}}>
+    <div
+      className={styles.container}
+      style={{ backgroundColor: theme?.colors?.red900?.value }}
+    >
       <Grid.Container gap={2} justify="flex-end">
         <Grid xs={8} sm={4} md={4} justify="flex-end" alignItems="center">
           {/* <Button
@@ -481,9 +485,8 @@ export default function PostCrud() {
           css={{
             height: "auto",
             minWidth: "100%",
-            padding: '0',
-            borderRadius: 0
-           
+            padding: "0",
+            borderRadius: 0,
           }}
           initialFilter={defaultFilter}
           total={tableTotal}

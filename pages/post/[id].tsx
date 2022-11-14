@@ -267,12 +267,12 @@ export default function Post({ relatedPost }: Props | any) {
 
   const tabOptions = [
     {
-      label: "Related Post",
+      label: "Related",
       key: "related-post",
       children: <TabContentChildren postList={relatedPost} />,
     },
     {
-      label: "Latest Post",
+      label: "Latest",
       key: "latest-post",
       children: <TabContentChildren postList={tabContent} />,
     },

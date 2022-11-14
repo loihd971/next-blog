@@ -18,7 +18,8 @@
       cursor: pointer;
       height: 100%;
       width: 100%;
-      min-width: 100px;
+      word-wrap: break-word;
+      // min-width: 100px;
       background-color: unset;
       border: none;
       border-radius: 5px;
