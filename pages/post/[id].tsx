@@ -497,7 +497,7 @@ export const getStaticProps = async ({ params }: any) => {
       {
         params: {
           postId: params.id,
-        },
+        }
       }
     );
 
