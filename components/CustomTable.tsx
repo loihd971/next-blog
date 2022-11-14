@@ -39,7 +39,7 @@ function CustomTable(props: any) {
     setFiltes((pre: any) => {
       let finalFilterObj: any = {};
       const filterObj = { ...pre, [key]: value };
-      Object.entries(filterObj).map(([k, v]: any) => {
+      Object.entries(filterObj)?.map(([k, v]: any) => {
         finalFilterObj[k] = v || null;
       });
       return finalFilterObj;
@@ -70,7 +70,7 @@ function CustomTable(props: any) {
           aria-label="custom-table"
           {...rest}
           sortDescriptor={null}
-          onSortChange={async (e) => console.log(e)}
+          onSortChange={async (e: any) => console.log(e)}
         >
           {columns?.map((col: any, _: number) => (
             <Table.Header key={col.key}>
@@ -118,9 +118,9 @@ function CustomTable(props: any) {
             </Table.Header>
           ))}
           <Table.Body>
-            {data.map((col: any, index: number) => (
+            {data?.map((col: any, index: number) => (
               <Table.Row key={Math.random()}>
-                {columns.map((item: any) => (
+                {columns?.map((item: any) => (
                   <Table.Cell
                     key={item.key}
                     css={{

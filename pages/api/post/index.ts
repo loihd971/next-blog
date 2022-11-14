@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
       const { page = 1, pageSize = 10, sort, ...rest } = req.query;
       let filter: any = {};
-      Object.entries(rest).map(([key, value]) => {
+      Object.entries(rest)?.map(([key, value]) => {
         if (!!value) {
           filter[key] = { $regex: value, $options: "i" };
         }

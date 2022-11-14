@@ -290,7 +290,7 @@ function Header({}: Props) {
         </Dropdown>
       </Nav.Content>
       <Nav.Collapse>
-        {collapseItems.map((item, index) => (
+        {collapseItems?.map((item, index) => (
           <Nav.CollapseItem
             key={item}
             activeColor="secondary"

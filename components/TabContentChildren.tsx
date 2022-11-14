@@ -27,7 +27,7 @@ export default function TabContentChildren({ postList }: Props | any) {
   return (
     <div>
       <ul style={{ margin: "0", paddingTop: "5px" }}>
-        {postList.map((item: any) => (
+        {postList?.map((item: any) => (
           <li
             key={item._id}
             style={{

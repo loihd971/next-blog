@@ -74,7 +74,7 @@ function PostFormModal({
       setTitle(title);
       setDescription(description);
       setTags(
-        tags.map((item: any) => ({ value: item, label: item.replace("#", "") }))
+        tags?.map((item: any) => ({ value: item, label: item.replace("#", "") }))
       );
       setLikes(likes || []);
       setContent(content);
@@ -436,7 +436,7 @@ function PostFormModal({
                 title,
                 description,
                 content,
-                tags: tags.map((item: any) => item.value),
+                tags: tags?.map((item: any) => item.value),
                 likes,
                 userId: session?.user?.id,
               });

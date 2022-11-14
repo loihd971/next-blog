@@ -25,7 +25,7 @@ function CustomComment({
   const [currentValue, setCurrentValue] = useState(comment.description);
   const [isEdit, setIsEdit] = useState(false);
 
-  const nestedComments = (comment?.children).map((item: any) => {
+  const nestedComments = (comment?.children)?.map((item: any) => {
     return (
       <CustomComment
         isChild={true}
