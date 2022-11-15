@@ -28,7 +28,7 @@ function AboutMe() {
   const getUserDetail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:3000/api/user/${router.query.id}`
+        `${process.env.BASE_URL}/api/user/${router.query.id}`
       );
       setUser(res.data);
     } catch (error) {}
@@ -36,7 +36,7 @@ function AboutMe() {
 
   const getPostByUser = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/post`, {
+      const res = await axios.get(`${process.env.BASE_URL}/api/post`, {
         params: { userId: user._id },
       });
 
@@ -175,7 +175,7 @@ export default AboutMe;
 
 // export const getStaticProps = async ({ params }: any) => {
 //   try {
-//     const res = await axios.get(`http://localhost:3000/api/user/${params.id}`);
+//     const res = await axios.get(`${process.env.BASE_URL}/api/user/${params.id}`);
 
 //     return {
 //       props: {
@@ -190,7 +190,7 @@ export default AboutMe;
 // };
 // export async function getStaticPaths() {
 //   try {
-//     const res: any = await axios.get(`http://localhost:3000/api/user`);
+//     const res: any = await axios.get(`${process.env.BASE_URL}/api/user`);
 
 //     const paths = res?.data?.map((user: any) => ({
 //       params: { id: user._id },

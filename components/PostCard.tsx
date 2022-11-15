@@ -2,6 +2,7 @@ import { Card, Col, Row, Button, Text } from "@nextui-org/react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 import { MouseEventHandler } from "react";
+import { FaHeart } from "react-icons/fa";
 
 export const PostCard = ({ post }: { post: any }) => {
   const router = useRouter();
@@ -52,6 +53,9 @@ export const PostCard = ({ post }: { post: any }) => {
           <Col>
             <Text h6 color="#000" size={12}>
               5 mins to read
+            </Text>
+            <Text h6 color="#000" size={12}>
+             {post?.likes?.length || 0} like(s)
             </Text>
             <Text h6 color="#000" size={12}>
             {post?.tags}

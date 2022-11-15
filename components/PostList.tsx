@@ -13,7 +13,7 @@ function PostList({ postList }: { postList: PostType[] }) {
 
   const getTrendingPost = async () => {
     try {
-      const res = await axios.get(`http://localhost:3000/api/post/trending-post`);
+      const res = await axios.get(`${process.env.BASE_URL}/api/post/trending-post`);
       console.log(res);
 
       setTrendingPost(res.data);

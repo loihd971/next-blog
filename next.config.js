@@ -30,7 +30,7 @@ const nextConfig = {
     // ordered list of acceptable optimized image formats (mime types)
     formats: ["image/webp"],
     // enable dangerous use of SVG images
-    dangerouslyAllowSVG: true,
+    dangerouslyAllowSVG: false,
     // set the Content-Security-Policy header
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     // limit of 50 objects

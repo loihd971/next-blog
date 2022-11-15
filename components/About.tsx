@@ -8,6 +8,8 @@ import Slider from "react-slick";
 import { CustomSliderItem } from "@/components/CustomSliderItem";
 
 const About = () => {
+  console.log(process.env.BASE_URL);
+  
   const { data: session }: any = useSession();
   const { theme }: any = useTheme();
   const [author, setAuthor] = useState<any>({});
@@ -50,7 +52,7 @@ const About = () => {
     if (session?.user?.id) {
       try {
         const res = await axios.get(
-          `http://localhost:3000/api/user/${session?.user?.id}`
+          `${process.env.BASE_URL}/api/user/${session?.user?.id}`
         );
         setAuthor(res.data);
       } catch (error: any) {
