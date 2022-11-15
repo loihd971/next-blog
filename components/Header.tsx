@@ -68,7 +68,11 @@ function Header({}: Props) {
         router.push("/", "/", { locale: router.locale });
         break;
       case "Posts":
+       if(session?.user?.id){
         router.push("/manage/post", "/", { locale: router.locale });
+       }else {
+        signIn()
+       }
         break;
       case "About":
         router.push("/", "/", { locale: router.locale });
@@ -168,7 +172,7 @@ function Header({}: Props) {
         }}
       >
         <CustomSearchBar />
-        <Nav.Item hideIn="md">
+        <Nav.Item>
           <Dropdown>
             <Dropdown.Button
               flat
