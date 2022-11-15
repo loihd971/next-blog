@@ -256,7 +256,7 @@ export default function PostCrud() {
 
   const handleSubmitCreateForm = async (data: any) => {
     try {
-      await axios.post(`https://evanloi991.vercel.app/api/post`, data);
+      await axios.post(`https://evanloi971.vercel.app/api/post`, data);
 
       toast.success("Create post successfully!");
       setIsCreatePostModalVisible(false);
@@ -269,7 +269,7 @@ export default function PostCrud() {
   const handleSubmitEditForm = async (data: any) => {
     try {
       await axios.put(
-        `https://evanloi991.vercel.app/api/post/${initFormData._id}`,
+        `https://evanloi971.vercel.app/api/post/${initFormData._id}`,
         data
       );
       toast.success("Edit post successfully!");
@@ -284,7 +284,7 @@ export default function PostCrud() {
   const handleSubmitDeleteForm = async (data: any) => {
     try {
       await axios.delete(
-        `https://evanloi991.vercel.app/api/post/${initFormData._id}`,
+        `https://evanloi971.vercel.app/api/post/${initFormData._id}`,
         data
       );
       toast.success("Delete post successfully!");
@@ -297,7 +297,7 @@ export default function PostCrud() {
 
   const handleFetchTableData = async (filters: any) => {
     try {
-      const res = await axios.get(`https://evanloi991.vercel.app/api/post`, {
+      const res = await axios.get(`https://evanloi971.vercel.app/api/post`, {
         params: { ...filters, userId: session?.user?.id },
       });
 

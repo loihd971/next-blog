@@ -52,7 +52,7 @@ const About = () => {
     if (session?.user?.id) {
       try {
         const res = await axios.get(
-          `https://evanloi991.vercel.app/api/user/${session?.user?.id}`
+          `https://evanloi971.vercel.app/api/user/${session?.user?.id}`
         );
         setAuthor(res.data);
       } catch (error: any) {

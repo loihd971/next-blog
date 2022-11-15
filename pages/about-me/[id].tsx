@@ -28,7 +28,7 @@ function AboutMe() {
   const getUserDetail = async () => {
     try {
       const res = await axios.get(
-        `https://evanloi991.vercel.app/api/user/${router.query.id}`
+        `https://evanloi971.vercel.app/api/user/${router.query.id}`
       );
       setUser(res.data);
     } catch (error) {}
@@ -36,7 +36,7 @@ function AboutMe() {
 
   const getPostByUser = async () => {
     try {
-      const res = await axios.get(`https://evanloi991.vercel.app/api/post`, {
+      const res = await axios.get(`https://evanloi971.vercel.app/api/post`, {
         params: { userId: user._id },
       });
 
@@ -175,7 +175,7 @@ export default AboutMe;
 
 // export const getStaticProps = async ({ params }: any) => {
 //   try {
-//     const res = await axios.get(`https://evanloi991.vercel.app/api/user/${params.id}`);
+//     const res = await axios.get(`https://evanloi971.vercel.app/api/user/${params.id}`);
 
 //     return {
 //       props: {
@@ -190,7 +190,7 @@ export default AboutMe;
 // };
 // export async function getStaticPaths() {
 //   try {
-//     const res: any = await axios.get(`https://evanloi991.vercel.app/api/user`);
+//     const res: any = await axios.get(`https://evanloi971.vercel.app/api/user`);
 
 //     const paths = res?.data?.map((user: any) => ({
 //       params: { id: user._id },

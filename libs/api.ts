@@ -2,7 +2,7 @@ import axios from "axios";
 
 export async function loadPosts() {
   try {
-    const res: any = await axios.get(`https://evanloi991.vercel.app/api/post`);
+    const res: any = await axios.get(`https://evanloi971.vercel.app/api/post`);
     return res;
   } catch (error) {
     console.log(error);
