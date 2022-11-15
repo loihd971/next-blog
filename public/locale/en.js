@@ -9,12 +9,16 @@ export default {
       about: "About Us",
       contact: "Contact",
       sign_in_as: "Signed in as",
-      login: 'Login',
-      signup: 'Sign up',
+      login: "Login",
+      signup: "Sign up",
       logout: "Logout",
       help_and_feedback: "Help & Feedback",
       search: "Seach",
-      services: "Posts"
+      services: "Posts",
+    },
+    about: {
+      intro:
+        "The history of evanloi blog is quite funny. Although it hasn't been around for a long time, the owner of this blog is a brother to the god EvanYou, surprisingly not necessarily suspicious, just kidding, simply love reading technology or simply looking for humor or need. If you know anything, please contact me so I can write if possible.",
     },
   },
 };

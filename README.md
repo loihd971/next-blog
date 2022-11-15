@@ -1,44 +1,28 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Hi, if this is your first visit to this project and you find it interesting, don't hesitate to give me a star, or if you need a business contact, please submit your contact information via submission form on my blog's contact section. thanks <3
 
-## Getting Started
+>
 
-First, run the development server:
+## The project has many shortcomings, I will try to update in the near future if I have free time, Below are a few guidelines for running the project:
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+1, always enter press star button 1 time,
+2, clone or fork project
+3, run command `yarn add .` or `npm install`
+4, then run command `yarn dev` or `npm run dev` as you see script in package.json file
 
-Open [https://evanloi991.vercel.app](https://evanloi991.vercel.app) with your browser to see the result.
+## What functions does the project have?
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+1, login/logout/register by social account handle by nextAuth(50%)
+2, Post: create, delete, edit, view, get related post by tag, get trending post by likes, comment in post, like post
+3, User: follow, unfollow, view info,
+4, Comment: infinity comment
+5, download public pdf, share to facebook,....
+w/w....There are many more things you can discover on your own
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [https://evanloi991.vercel.app/api/hello](https://evanloi991.vercel.app/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Stack and Technology
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Nextjs, NextUi, NextTheme, NextAuth, Mongodb, Firebase storage, AWS S3, SCSS integrated , Absolute path, Support Typescript, apply API feature for serverless, custom error page, anwesom custom component, I18
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-
-
-## Deploy with url: https://evanloi-blog.vercel.app/
-
-
-## some error often occur when development:
-
+## some error often occur when i develop this project:
 
 1.Error: There was an error while hydrating. Because the error happened outside of a Suspense boundary, the entire root will switch to client rendering.
 
@@ -46,11 +30,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 See more info here: [https://nextjs.org/docs/messages/react-hydration-error](https://nextjs.org/docs/messages/react-hydration-error)
 
-3.popover of nextui not absolute by parent
+3.popover of nextui not absolute by parent ..... w/w
 
-
-https://evanloi991.vercel.app
-https://evanloi991.vercel.app/api/auth/callback/google
-
-
-
+## Finally, you can find me on linkedin via link: [https://www.linkedin.com/in/h%C3%A0-l%E1%BB%A3i-75b0891a7/](https://www.linkedin.com/in/h%C3%A0-l%E1%BB%A3i-75b0891a7/)

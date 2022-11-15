@@ -55,12 +55,35 @@ function Header({}: Props) {
   const collapseItems = [
     "Home",
     "About",
-    "Service",
+    "Posts",
     "Contact",
     "Help & Feedback",
     "Log Out",
   ];
   const { data: session }: any = useSession();
+
+  const handleNavigatePath = (path: string) => {
+    switch (path) {
+      case "Home":
+        router.push("/", "/", { locale: router.locale });
+        break;
+      case "Posts":
+        router.push("/manage/post", "/", { locale: router.locale });
+        break;
+      case "About":
+        router.push("/", "/", { locale: router.locale });
+        break;
+
+      case "Help & Feedback":
+        router.push("/", "/", { locale: router.locale });
+        break;
+      case "Log Out":
+        signOut();
+        break;
+      default:
+        break;
+    }
+  };
 
   const WraperLangItem = styled("div", {
     display: "flex",
@@ -288,7 +311,7 @@ function Header({}: Props) {
             css={{
               color: index === collapseItems.length - 1 ? "$error" : "",
             }}
-            isActive={index === 2}
+            isActive={index === 0}
           >
             <Link
               color="inherit"
@@ -296,6 +319,7 @@ function Header({}: Props) {
                 minWidth: "100%",
               }}
               href="#"
+              onClick={() => handleNavigatePath(item)}
             >
               {item}
             </Link>
