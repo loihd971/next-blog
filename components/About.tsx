@@ -51,7 +51,7 @@ const About = () => {
     if (session?.user?.id) {
       try {
         const res = await axios.get(
-          `${process.env.BLOG_URL}/api/user/${session?.user?.id}`
+          `https://evanloi991.vercel.app/api/user/${session?.user?.id}`
         );
         setAuthor(res.data);
       } catch (error: any) {

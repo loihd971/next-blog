@@ -40,7 +40,7 @@ function CustomSearchBar({}: Props) {
       value &&
       setTimeout(() => {
         axios
-          .get(`${process.env.BLOG_URL}/api/post/search`, {
+          .get(`https://evanloi991.vercel.app/api/post/search`, {
             params: { title: value },
           })
           .then((data: any) => {
