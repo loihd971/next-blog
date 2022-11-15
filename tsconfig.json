@@ -4,7 +4,7 @@
     "paths": {
       "@/components/*": ["components/*"],
       "@/models/*": ["models/*"],
-      "@/services/*": ["services/*"],
+      "@/libs/*": ["libs/*"],
       "@/utils/*": ["utils/*"],
       "@/redux/*": ["redux/*"],
       "@/public/*": ["public/*"],

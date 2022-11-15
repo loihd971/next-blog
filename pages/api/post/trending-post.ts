@@ -1,4 +1,4 @@
-import dbConnect from "@/services/mongo";
+import dbConnect from "@/libs/mongo";
 import { NextApiRequest, NextApiResponse } from "next";
 import Post from "@/models/Post";
 
@@ -27,7 +27,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             },
           },
           { $sort: { length: -1 } },
-          { $limit: 5 },
+          { $limit: 10 },
         ],
         function (err, results) {
           if (results) {

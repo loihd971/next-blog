@@ -18,7 +18,7 @@ import { useSession } from "next-auth/react";
 // import { Upload as AwsUpload } from "@aws-sdk/lib-storage";
 import { CrudType, PostType } from "@/utils/sharedType";
 import CustomRichEditor from "./CustomRichEditor";
-import app from "@/services/firebase";
+import app from "@/libs/firebase";
 import {
   getStorage,
   ref,

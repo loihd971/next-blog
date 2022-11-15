@@ -25,7 +25,7 @@ import {
   FaRegShareSquare,
   FaEllipsisH,
 } from "react-icons/fa";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import moment from "moment";
 import { SlUserFollow, SlUserFollowing } from "react-icons/sl";
 import CustomRichEditor from "@/components/CustomRichEditor";
@@ -34,6 +34,7 @@ import CustomComment from "@/components/CustomComment";
 import { FORMAT_TIME } from "@/utils/constant";
 import { FacebookIcon, FacebookShareButton } from "react-share";
 import { useRouter } from "next/router";
+import postSlice from "@/redux/postSlice";
 
 type Props = {};
 
@@ -50,6 +51,19 @@ export default function Post({ relatedPost }: Props | any) {
   const [author, setAuthor] = useState<any>({});
   const [post, setPost] = useState<any>({});
   const isFollowing = author?.follower?.includes(session?.user?.id);
+  const [loading, setLoading] = useState(true);
+
+  const securePage = async () => {
+    if (!session) {
+      signIn();
+    } else {
+      setLoading(false);
+    }
+  };
+
+  // useEffect(() => {
+  //   securePage();
+  // }, []);
 
   const {
     query: { id },
@@ -70,7 +84,7 @@ export default function Post({ relatedPost }: Props | any) {
   const handleFollowUser = async (type: string) => {
     const body = {
       authorId: author._id,
-      followerId: session.user.id,
+      followerId: session?.user?.id,
       type,
     };
     try {
@@ -303,7 +317,12 @@ export default function Post({ relatedPost }: Props | any) {
             <div className={styles.postdetail__icon}>
               <FaRegHeart
                 className={styles.icon}
-                onClick={() => handleLikePost()}
+                onClick={() => {
+                  if (!session) {
+                    signIn();
+                  }
+                  handleLikePost();
+                }}
               />{" "}
               <Text h6>{post?.likes?.length || 0}</Text>
             </div>
@@ -363,6 +382,9 @@ export default function Post({ relatedPost }: Props | any) {
                         },
                       }}
                       onClick={() => {
+                        if (!session) {
+                          signIn();
+                        }
                         handleFollowUser("unfollow");
                       }}
                     >
@@ -385,6 +407,9 @@ export default function Post({ relatedPost }: Props | any) {
                       }}
                       color="secondary"
                       onClick={() => {
+                        if (!session) {
+                          signIn();
+                        }
                         handleFollowUser("follow");
                       }}
                     >
@@ -431,7 +456,12 @@ export default function Post({ relatedPost }: Props | any) {
               <div
                 className={styles.editor__wrapper}
                 style={{ border: isEditorVisible ? "unset" : "1px solid" }}
-                onClick={handleToggleComment}
+                onClick={() => {
+                  if (!session) {
+                    signIn();
+                  }
+                  handleToggleComment();
+                }}
               >
                 {!isEditorVisible && (
                   <Text h6 css={{ marginLeft: "10px", marginBottom: "0px" }}>
@@ -444,7 +474,12 @@ export default function Post({ relatedPost }: Props | any) {
                     display: isEditorVisible ? "block" : "none",
                   }}
                   type="create"
-                  onChange={handleComment}
+                  onChange={(e: any) => {
+                    if (!session) {
+                      signIn();
+                    }
+                    handleComment(e);
+                  }}
                 />
                 {isEditorVisible && (
                   <div className={styles.editor__action__button}>
@@ -452,7 +487,12 @@ export default function Post({ relatedPost }: Props | any) {
                       css={{ display: "flex", alignItems: "center" }}
                       color="secondary"
                       size="xs"
-                      onClick={handleSubmitComment}
+                      onClick={() => {
+                        if (!session) {
+                          signIn();
+                        }
+                        handleSubmitComment();
+                      }}
                     >
                       Submit
                     </Button>
@@ -519,7 +559,9 @@ export const getStaticProps = async ({ params }: any) => {
     };
   } catch (error) {
     return {
-      props: {},
+      props: {
+        relatedPost: []
+      },
     };
   }
 };

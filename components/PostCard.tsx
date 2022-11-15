@@ -53,9 +53,9 @@ export const PostCard = ({ post }: { post: any }) => {
             <Text h6 color="#000" size={12}>
               5 mins to read
             </Text>
-            {/* <Text h6 color="#000" size={12}>
-              Get notified.
-            </Text> */}
+            <Text h6 color="#000" size={12}>
+            {post?.tags}
+            </Text>
           </Col>
           <Col>
             <Row justify="flex-end">

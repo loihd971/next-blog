@@ -1,5 +1,5 @@
 import Comment from "@/models/Comment";
-import dbConnect from "@/services/mongo";
+import dbConnect from "@/libs/mongo";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

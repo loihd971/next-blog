@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import GitHubProvider, { GithubProfile } from "next-auth/providers/github";
 import User from "@/models/User";
-import dbConnect from "@/services/mongo";
+import dbConnect from "@/libs/mongo";
 import { toast } from "react-toastify";
 import { OAuthConfig } from "next-auth/providers";
 import { signOut } from "next-auth/react";
@@ -61,8 +61,8 @@ export const authOptions = {
         const existUser = await User.find({ email: session?.user.email });
 
         if (existUser) {
-          session.user.role = existUser[0].role;
-          session.user.id = existUser[0]._id;
+          session.user.role = existUser[0]?.role;
+          session.user.id = existUser[0]?._id;
         }
       } catch (error: any) {
         toast.error(error);
@@ -77,4 +77,5 @@ export const authOptions = {
     maxAge: 30 * 24 * 60 * 60, // 30 day
   }
 };
+
 export default NextAuth(authOptions);

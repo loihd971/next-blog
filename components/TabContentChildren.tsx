@@ -67,7 +67,7 @@ export default function TabContentChildren({ postList }: Props | any) {
             <div>
               <Text h5>{item.title?.slice(0, 20)}...</Text>
               {/* <Text h5>{item.description?.slice(0, 20)}...</Text> */}
-              <Text css={{wordWrap: 'break-word'}} h6>{item.tags}</Text>
+              <Text css={{wordWrap: 'break-word'}} h6>{item.tags} ({item.likes?.length}likes)</Text>
               {isHover && item._id === hoveredEl && (
                 <div
                   className="tab-child__icon"

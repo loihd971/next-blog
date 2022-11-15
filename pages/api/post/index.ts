@@ -1,4 +1,4 @@
-import dbConnect from "@/services/mongo";
+import dbConnect from "@/libs/mongo";
 import { NextApiRequest, NextApiResponse } from "next";
 import Post from "@/models/Post";
 

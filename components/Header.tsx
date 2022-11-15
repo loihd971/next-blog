@@ -19,7 +19,7 @@ import Image from "next/image";
 import useTrans from "@/utils/useTranslate.js";
 import { Language } from "@/utils/sharedType";
 import { useRouter } from "next/router";
-import { getLocalStorage, setLocalStorage } from "@/services/localStorage";
+import { getLocalStorage, setLocalStorage } from "@/libs/localStorage";
 import { FaJsSquare } from "react-icons/fa";
 import styles from "@/styles/Header.module.scss";
 import CustomSearchBar from "@/components/CustomSearchBar";
