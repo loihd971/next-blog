@@ -73,7 +73,7 @@ export default function Post({ relatedPost }: Props | any) {
   };
   const getPostDetail = async () => {
     try {
-      const res = await axios.get(`${process.env.BASE_URL}/api/post/${id}`);
+      const res = await axios.get(`${process.env.BLOG_URL}/api/post/${id}`);
       setPost(res.data);
     } catch (error) {
       console.log(error);
@@ -87,7 +87,7 @@ export default function Post({ relatedPost }: Props | any) {
       type,
     };
     try {
-      await axios.post(`${process.env.BASE_URL}/api/user/follow`, body);
+      await axios.post(`${process.env.BLOG_URL}/api/user/follow`, body);
       getAuthor();
     } catch (error) {
       console.log(error);
@@ -100,7 +100,7 @@ export default function Post({ relatedPost }: Props | any) {
 
   const getTabContent = async () => {
     try {
-      const res: any = await axios.get(`${process.env.BASE_URL}/api/post`);
+      const res: any = await axios.get(`${process.env.BLOG_URL}/api/post`);
       setTabContent(res.data.postList);
     } catch (error) {
       console.log(error);
@@ -110,7 +110,7 @@ export default function Post({ relatedPost }: Props | any) {
   const getCommentList = async () => {
     try {
       const res: any = await axios.get(
-        `${process.env.BASE_URL}/api/comment/${post?._id}`
+        `${process.env.BLOG_URL}/api/comment/${post?._id}`
       );
 
       setCommentList(res.data);
@@ -131,7 +131,7 @@ export default function Post({ relatedPost }: Props | any) {
 
     try {
       const res: any = await axios.post(
-        `${process.env.BASE_URL}/api/comment`,
+        `${process.env.BLOG_URL}/api/comment`,
         body
       );
       setComment(undefined);
@@ -152,7 +152,7 @@ export default function Post({ relatedPost }: Props | any) {
     };
     try {
       const res: any = await axios.put(
-        `${process.env.BASE_URL}/api/comment/${id}`,
+        `${process.env.BLOG_URL}/api/comment/${id}`,
         body
       );
 
@@ -165,7 +165,7 @@ export default function Post({ relatedPost }: Props | any) {
 
   const handleLikePost = async () => {
     try {
-      await axios.post(`${process.env.BASE_URL}/api/post/${post?._id}`, {
+      await axios.post(`${process.env.BLOG_URL}/api/post/${post?._id}`, {
         userId: session?.user?.id,
       });
       getPostDetail();
@@ -176,7 +176,7 @@ export default function Post({ relatedPost }: Props | any) {
   };
   const handleLikeComment = async (id: string | null) => {
     try {
-      await axios.post(`${process.env.BASE_URL}/api/comment/${id}`, {
+      await axios.post(`${process.env.BLOG_URL}/api/comment/${id}`, {
         type: "like",
         userId: session?.user?.id,
       });
@@ -188,7 +188,7 @@ export default function Post({ relatedPost }: Props | any) {
   };
   const handleDislikeComment = async (id: string | null) => {
     try {
-      await axios.post(`${process.env.BASE_URL}/api/comment/${id}`, {
+      await axios.post(`${process.env.BLOG_URL}/api/comment/${id}`, {
         type: "dislike",
         userId: session?.user?.id,
       });
@@ -203,7 +203,7 @@ export default function Post({ relatedPost }: Props | any) {
     if (post?.userId) {
       try {
         const res = await axios.get(
-          `${process.env.BASE_URL}/api/user/${post?.userId}`
+          `${process.env.BLOG_URL}/api/user/${post?.userId}`
         );
         setAuthor(res.data);
       } catch (error: any) {
@@ -264,7 +264,7 @@ export default function Post({ relatedPost }: Props | any) {
     };
     try {
       const res: any = await axios.post(
-        `${process.env.BASE_URL}/api/comment`,
+        `${process.env.BLOG_URL}/api/comment`,
         body
       );
       setComment(undefined);
@@ -542,7 +542,7 @@ export default function Post({ relatedPost }: Props | any) {
 export const getStaticProps = async ({ params }: any) => {
   try {
     const posts = await axios.get(
-      `${process.env.BASE_URL}/api/post/related-post`,
+      `${process.env.BLOG_URL}/api/post/related-post`,
       {
         params: {
           postId: params.id,
@@ -566,7 +566,7 @@ export const getStaticProps = async ({ params }: any) => {
 };
 export async function getStaticPaths() {
   try {
-    const res: any = await axios.get(`${process.env.BASE_URL}/api/post`);
+    const res: any = await axios.get(`${process.env.BLOG_URL}/api/post`);
 
     const posts = await res.json();
 
