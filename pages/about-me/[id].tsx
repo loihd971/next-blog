@@ -11,22 +11,32 @@ import {
   FaSlack,
   FaTwitter,
 } from "react-icons/fa";
-import moment from "moment";
+import moment, { locale } from "moment";
 import { FORMAT_SECOND_TIME } from "@/utils/constant";
 import { Tb2Fa } from "react-icons/tb";
 import { useRouter } from "next/router";
-import { useSession } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/react";
 type Props = {};
 
-function AboutMe({ user }: Props | any) {
+function AboutMe() {
   const router = useRouter();
   const { data: session }: any = useSession();
   const { theme, isDark } = useTheme();
   const [posts, setPosts] = useState(0);
+  const [user, setUser] = useState<any>({});
+
+  const getUserDetail = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:3000/api/user/${router.query.id}`
+      );
+      setUser(res.data);
+    } catch (error) {}
+  };
 
   const getPostByUser = async () => {
     try {
-      const res = await axios.get(`${process.env.BASE_URL}/api/post`, {
+      const res = await axios.get(`http://localhost:3000/api/post`, {
         params: { userId: user._id },
       });
 
@@ -41,6 +51,14 @@ function AboutMe({ user }: Props | any) {
       getPostByUser();
     }
   }, [user]);
+
+  useEffect(() => {
+    getUserDetail();
+  }, [router?.query?.id]);
+
+  // if(router.isFallback){
+  //   return "isLoading..."
+  // }
 
   return (
     <Grid.Container
@@ -66,7 +84,7 @@ function AboutMe({ user }: Props | any) {
                 width: "200px",
                 height: "200px",
               }}
-              src={user?.avatar}
+              src={session?.user?.image}
             />
             <div className={styles.aboutme__intro}>
               <Text h3>{user?.name}</Text>{" "}
@@ -155,33 +173,31 @@ function AboutMe({ user }: Props | any) {
 
 export default AboutMe;
 
-export const getStaticProps = async ({ params }: any) => {
-  try {
-    const res = await axios.get(
-      `${process.env.BASE_URL}/api/user/${params.id}`
-    );
+// export const getStaticProps = async ({ params }: any) => {
+//   try {
+//     const res = await axios.get(`http://localhost:3000/api/user/${params.id}`);
 
-    return {
-      props: {
-        user: res.data,
-      },
-    };
-  } catch (error) {
-    return {
-      props: {},
-    };
-  }
-};
-export async function getStaticPaths() {
-  try {
-    const res: any = await axios.get(`${process.env.BASE_URL}/api/user`);
+//     return {
+//       props: {
+//         user: res.data,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       props: {},
+//     };
+//   }
+// };
+// export async function getStaticPaths() {
+//   try {
+//     const res: any = await axios.get(`http://localhost:3000/api/user`);
 
-    const paths = res?.data?.map((user: any) => ({
-      params: { id: user._id },
-    }));
+//     const paths = res?.data?.map((user: any) => ({
+//       params: { id: user._id },
+//     }));
 
-    return { paths, fallback: true };
-  } catch (error) {
-    return { paths: [], fallback: true };
-  }
-}
+//     return { paths, fallback: true };
+//   } catch (error) {
+//     return { paths: [], fallback: true };
+//   }
+// }

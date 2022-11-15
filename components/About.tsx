@@ -50,7 +50,7 @@ const About = () => {
     if (session?.user?.id) {
       try {
         const res = await axios.get(
-          `${process.env.BASE_URL}/api/user/${session?.user?.id}`
+          `http://localhost:3000/api/user/${session?.user?.id}`
         );
         setAuthor(res.data);
       } catch (error: any) {

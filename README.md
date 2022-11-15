@@ -49,3 +49,8 @@ See more info here: [https://nextjs.org/docs/messages/react-hydration-error](htt
 3.popover of nextui not absolute by parent
 
 
+https://evanloi991.vercel.app
+https://evanloi991.vercel.app/api/auth/callback/google
+
+
+

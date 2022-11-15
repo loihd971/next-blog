@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { modules, formats } from "@/utils/editorToolbar";
-const QuillNoSSRWrapper: any = dynamic(import("react-quill"), {
+const QuillNoSSRWrapper: any = dynamic(() =>import("react-quill"), {
   ssr: false,
   loading: () => <p>Loading ...</p>,
 });

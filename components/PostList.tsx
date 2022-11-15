@@ -1,22 +1,35 @@
 import { PostType } from "@/utils/sharedType";
-import React from "react";
-import {
-  Grid,
-  useTheme,
-} from "@nextui-org/react";
+import React, { useEffect, useState } from "react";
+import { Grid, useTheme } from "@nextui-org/react";
 import styles from "@/styles/PostList.module.scss";
 import { PostCard } from "@/components/PostCard";
 import CustomTab from "@/components/CustomTab";
 import TabContentChildren from "./TabContentChildren";
+import axios from "axios";
 
 function PostList({ postList }: { postList: PostType[] }) {
   const { theme, isDark } = useTheme();
+  const [trendingPost, setTrendingPost] = useState([]);
+
+  const getTrendingPost = async () => {
+    try {
+      const res = await axios.get(`http://localhost:3000/api/post/trending-post`);
+      console.log(res);
+
+      setTrendingPost(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getTrendingPost();
+  }, []);
 
   const tabOptions = [
     {
-      label: "Related",
+      label: "Trending",
       key: "related-post",
-      children: <TabContentChildren postList={postList} />,
+      children: <TabContentChildren postList={trendingPost} />,
     },
     {
       label: "Latest",
@@ -40,12 +53,10 @@ function PostList({ postList }: { postList: PostType[] }) {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         backgroundPosition: "center",
-        position: 'relative'
+        position: "relative",
       }}
     >
-      <Grid xs={12} sm={3} md={3} lg={3} xl={2}>
-
-      </Grid>
+      <Grid xs={12} sm={3} md={3} lg={3} xl={2}></Grid>
       <Grid xs={12} sm={6} md={6} lg={6} xl={7}>
         <Grid.Container gap={2}>
           {postList?.map((item, index) => (
@@ -62,11 +73,9 @@ function PostList({ postList }: { postList: PostType[] }) {
         lg={3}
         xl={3}
         justify="center"
-        css={{ padding: "24px", position: 'sticky !important', top: "0px"}}
+        css={{ padding: "24px", position: "sticky !important", top: "0px" }}
       >
-        <div
-          className={styles.tab__post}
-        >
+        <div className={styles.tab__post}>
           <CustomTab
             tabOptions={tabOptions}
             defaultActive="related-post"

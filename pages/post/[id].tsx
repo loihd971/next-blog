@@ -12,6 +12,7 @@ import {
   Avatar,
   Input,
   Button,
+  Tooltip,
 } from "@nextui-org/react";
 import styles from "@/styles/PostList.module.scss";
 import CustomTab from "@/components/CustomTab";
@@ -59,21 +60,21 @@ export default function Post({ relatedPost }: Props | any) {
   };
   const getPostDetail = async () => {
     try {
-      const res = await axios.get(`${process.env.BASE_URL}/api/post/${id}`);
-
+      const res = await axios.get(`http://localhost:3000/api/post/${id}`);
       setPost(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleFollowUser = async () => {
+  const handleFollowUser = async (type: string) => {
     const body = {
       authorId: author._id,
       followerId: session.user.id,
+      type,
     };
     try {
-      await axios.post(`${process.env.BASE_URL}/api/user/follow`, body);
+      await axios.post(`http://localhost:3000/api/user/follow`, body);
       getAuthor();
     } catch (error) {
       console.log(error);
@@ -86,7 +87,7 @@ export default function Post({ relatedPost }: Props | any) {
 
   const getTabContent = async () => {
     try {
-      const res: any = await axios.get(`${process.env.BASE_URL}/api/post`);
+      const res: any = await axios.get(`http://localhost:3000/api/post`);
       setTabContent(res.data.postList);
     } catch (error) {
       console.log(error);
@@ -96,7 +97,7 @@ export default function Post({ relatedPost }: Props | any) {
   const getCommentList = async () => {
     try {
       const res: any = await axios.get(
-        `${process.env.BASE_URL}/api/comment/${post?._id}`
+        `http://localhost:3000/api/comment/${post?._id}`
       );
 
       setCommentList(res.data);
@@ -117,7 +118,7 @@ export default function Post({ relatedPost }: Props | any) {
 
     try {
       const res: any = await axios.post(
-        `${process.env.BASE_URL}/api/comment`,
+        `http://localhost:3000/api/comment`,
         body
       );
       setComment(undefined);
@@ -138,7 +139,7 @@ export default function Post({ relatedPost }: Props | any) {
     };
     try {
       const res: any = await axios.put(
-        `${process.env.BASE_URL}/api/comment/${id}`,
+        `http://localhost:3000/api/comment/${id}`,
         body
       );
 
@@ -151,7 +152,7 @@ export default function Post({ relatedPost }: Props | any) {
 
   const handleLikePost = async () => {
     try {
-      await axios.post(`${process.env.BASE_URL}/api/post/${post?._id}`, {
+      await axios.post(`http://localhost:3000/api/post/${post?._id}`, {
         userId: session?.user?.id,
       });
       getPostDetail();
@@ -162,7 +163,7 @@ export default function Post({ relatedPost }: Props | any) {
   };
   const handleLikeComment = async (id: string | null) => {
     try {
-      await axios.post(`${process.env.BASE_URL}/api/comment/${id}`, {
+      await axios.post(`http://localhost:3000/api/comment/${id}`, {
         type: "like",
         userId: session?.user?.id,
       });
@@ -174,7 +175,7 @@ export default function Post({ relatedPost }: Props | any) {
   };
   const handleDislikeComment = async (id: string | null) => {
     try {
-      await axios.post(`${process.env.BASE_URL}/api/comment/${id}`, {
+      await axios.post(`http://localhost:3000/api/comment/${id}`, {
         type: "dislike",
         userId: session?.user?.id,
       });
@@ -189,7 +190,7 @@ export default function Post({ relatedPost }: Props | any) {
     if (post?.userId) {
       try {
         const res = await axios.get(
-          `${process.env.BASE_URL}/api/user/${post?.userId}`
+          `http://localhost:3000/api/user/${post?.userId}`
         );
         setAuthor(res.data);
       } catch (error: any) {
@@ -204,7 +205,7 @@ export default function Post({ relatedPost }: Props | any) {
       getCommentList();
       getAuthor();
     }
-  }, [post?._id, isCommented]);
+  }, [post?._id, isCommented, isFollowing]);
 
   const getCommentTree = (arr: any[]) => {
     const tree: any[] = [];
@@ -250,7 +251,7 @@ export default function Post({ relatedPost }: Props | any) {
     };
     try {
       const res: any = await axios.post(
-        `${process.env.BASE_URL}/api/comment`,
+        `http://localhost:3000/api/comment`,
         body
       );
       setComment(undefined);
@@ -350,40 +351,49 @@ export default function Post({ relatedPost }: Props | any) {
               </div>
               {author._id !== session?.user?.id &&
                 (isFollowing ? (
-                  <Button
-                    color="secondary"
-                    size="sm"
-                    css={{
-                      display: "flex",
-                      alignItems: "center",
-                      "@xs": {
-                        w: "12%",
-                      },
-                    }}
-                  >
-                    <SlUserFollowing
-                      className={styles.post__comment__followicon}
-                    />
-                    Following
-                  </Button>
+                  <Tooltip content="Unfollow user" color="primary">
+                    <Button
+                      color="secondary"
+                      size="sm"
+                      css={{
+                        display: "flex",
+                        alignItems: "center",
+                        "@xs": {
+                          w: "12%",
+                        },
+                      }}
+                      onClick={() => {
+                        handleFollowUser("unfollow");
+                      }}
+                    >
+                      <SlUserFollowing
+                        className={styles.post__comment__followicon}
+                      />
+                      Following
+                    </Button>
+                  </Tooltip>
                 ) : (
-                  <Button
-                    size="sm"
-                    css={{
-                      display: "flex",
-                      alignItems: "center",
-                      "@xs": {
-                        w: "12%",
-                      },
-                    }}
-                    color="secondary"
-                    onClick={handleFollowUser}
-                  >
-                    <SlUserFollow
-                      className={styles.post__comment__followicon}
-                    />
-                    Follow
-                  </Button>
+                  <Tooltip content="Follow user" color="primary">
+                    <Button
+                      size="sm"
+                      css={{
+                        display: "flex",
+                        alignItems: "center",
+                        "@xs": {
+                          w: "12%",
+                        },
+                      }}
+                      color="secondary"
+                      onClick={() => {
+                        handleFollowUser("follow");
+                      }}
+                    >
+                      <SlUserFollow
+                        className={styles.post__comment__followicon}
+                      />
+                      Follow
+                    </Button>
+                  </Tooltip>
                 ))}
             </div>
             <div className={styles.post_description}>
@@ -493,11 +503,11 @@ export default function Post({ relatedPost }: Props | any) {
 export const getStaticProps = async ({ params }: any) => {
   try {
     const posts = await axios.get(
-      `${process.env.BASE_URL}/api/post/related-video`,
+      `http://localhost:3000/api/post/related-post`,
       {
         params: {
           postId: params.id,
-        }
+        },
       }
     );
 
@@ -505,6 +515,7 @@ export const getStaticProps = async ({ params }: any) => {
       props: {
         relatedPost: posts.data,
       },
+      revalidate: 10,
     };
   } catch (error) {
     return {
@@ -514,7 +525,7 @@ export const getStaticProps = async ({ params }: any) => {
 };
 export async function getStaticPaths() {
   try {
-    const res: any = await axios.get(`${process.env.BASE_URL}/api/post`);
+    const res: any = await axios.get(`http://localhost:3000/api/post`);
 
     const posts = await res.json();
 

@@ -30,19 +30,12 @@ function Header({}: Props) {
   const { setTheme } = useNextTheme();
   const { isDark, type, theme } = useTheme();
   const [isTop, setIsTop] = useState(false);
-  const [isPress, setIsPress] = useState(0);
 
   const [isNavbarActive, setIsNavbarActive] = useState("home");
   const handleChangeLanguage = (lang: string) => {
     router.push("/", "/", { locale: lang });
     setIsNavbarActive("home");
   };
-
-  // useEffect(() => {
-  //   if (isPress !== 0) {
-  //     router.push("/", "/", { locale: router.locale });
-  //   }
-  // }, [isPress]);
 
   useEffect(() => {
     const handler = () => {
@@ -244,10 +237,8 @@ function Header({}: Props) {
               console.log(actionKey);
 
               if (actionKey === "logout") {
-                setIsPress(Math.random());
-                router.push("/", "/", { locale: router.locale });
                 signOut();
-               
+                // router.push("/", "/", { locale: router.locale });
               }
             }}
           >
@@ -279,12 +270,12 @@ function Header({}: Props) {
             </Dropdown.Item>
             <Dropdown.Item key="contact">Contact</Dropdown.Item>
             <Dropdown.Item key="logout" withDivider color="error">
-              <Link
+              {/* <Link
                 href={`/${router.locale}`}
                 style={{ color: theme?.colors?.accents9.value, width: "100%" }}
-              >
-                {trans.home.navbar.logout}
-              </Link>
+              > */}
+              {trans.home.navbar.logout}
+              {/* </Link> */}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

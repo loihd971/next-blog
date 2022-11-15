@@ -5,6 +5,7 @@ import User from "@/models/User";
 import dbConnect from "@/services/mongo";
 import { toast } from "react-toastify";
 import { OAuthConfig } from "next-auth/providers";
+import { signOut } from "next-auth/react";
 // import { MongoDBAdapter } from "@next-auth/mongodb-adapter";
 // import clientPromise from "../../../utils/mongodb";
 
@@ -22,6 +23,9 @@ export const authOptions = {
   ] as (OAuthConfig<GoogleProfile> | OAuthConfig<GithubProfile>)[],
 
   callbacks: {
+    async redirect({ url, baseUrl }: any) {
+      return baseUrl;
+    },
     async signIn({ account, profile }: any) {
       dbConnect();
       if (account.provider === "google") {
@@ -71,6 +75,6 @@ export const authOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     maxAge: 30 * 24 * 60 * 60, // 30 day
-  },
+  }
 };
 export default NextAuth(authOptions);

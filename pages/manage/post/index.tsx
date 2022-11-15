@@ -30,7 +30,7 @@ import ConfirmModal from "@/components/ConfirmModal";
 import { useMediaQuery } from "@/utils/useMediaQuery.js";
 import CustomTable, { Cols } from "@/components/CustomTable";
 import { FORMAT_TIME } from "@/utils/constant";
-import { useSession } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/react";
 
 export default function PostCrud() {
   const { data: session }: any = useSession();
@@ -53,6 +53,21 @@ export default function PostCrud() {
   const [isFilterBlockVisible, setIsFilterBlockVisible] = useState(false);
   const [filters, setFilters] = useState<any>(defaultFilter);
   const { isDark, theme }: any = useTheme();
+  const [loading, setLoading] = useState(true);
+  
+  const securePage = async () => {
+    const session = await getSession();
+    if (!session) {
+      signIn();
+    } else {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    securePage();
+  }, []);
+
 
   const tableColumn: Cols[] = [
     {
@@ -241,7 +256,7 @@ export default function PostCrud() {
 
   const handleSubmitCreateForm = async (data: any) => {
     try {
-      await axios.post(`${process.env.BASE_URL}/api/post`, data);
+      await axios.post(`http://localhost:3000/api/post`, data);
 
       toast.success("Create post successfully!");
       setIsCreatePostModalVisible(false);
@@ -254,7 +269,7 @@ export default function PostCrud() {
   const handleSubmitEditForm = async (data: any) => {
     try {
       await axios.put(
-        `${process.env.BASE_URL}/api/post/${initFormData._id}`,
+        `http://localhost:3000/api/post/${initFormData._id}`,
         data
       );
       toast.success("Edit post successfully!");
@@ -269,7 +284,7 @@ export default function PostCrud() {
   const handleSubmitDeleteForm = async (data: any) => {
     try {
       await axios.delete(
-        `${process.env.BASE_URL}/api/post/${initFormData._id}`,
+        `http://localhost:3000/api/post/${initFormData._id}`,
         data
       );
       toast.success("Delete post successfully!");
@@ -282,7 +297,7 @@ export default function PostCrud() {
 
   const handleFetchTableData = async (filters: any) => {
     try {
-      const res = await axios.get(`${process.env.BASE_URL}/api/post`, {
+      const res = await axios.get(`http://localhost:3000/api/post`, {
         params: { ...filters, userId: session?.user?.id },
       });
 
